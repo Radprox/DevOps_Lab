@@ -1,0 +1,19 @@
+---
+- hosts: all
+  remote_user: ubuntu
+  become: true
+  
+  tasks:
+   # Stop petclinic container
+    - name: Stop old petclinic container
+      shell: docker stop petclinic
+      ignore_errors: True
+      
+       # Remove petclinic container
+    - name: Remove old petclinic container
+      shell: docker rm petclinic
+      ignore_errors: True
+      
+    # Run petclinic container
+    - name: Run petclinic container
+      shell: docker run -d -p 8888:8080 --name petclinic rodionpro/petclinic

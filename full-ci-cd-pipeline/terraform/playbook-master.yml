@@ -1,0 +1,8 @@
+---
+- hosts: "{{ passed_in_hosts }}"
+  remote_user: ubuntu
+  become: true
+  
+  roles:
+    - docker
+    - jenkins_in_docker

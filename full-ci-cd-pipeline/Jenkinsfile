@@ -1,0 +1,77 @@
+pipeline {
+        
+      agent any
+       triggers {
+        pollSCM "* * * * *"
+       }
+	   
+    stages {
+       
+        stage('Build') { 
+            steps {
+                echo '########## Building Petclinic Application ##########'
+                sh 'mvn -B -DskipTests clean package' 
+            }
+        }
+		
+        stage('Test') {
+            steps {
+                echo '########## Testing Petclinic Application ##########'
+                sh 'mvn test'
+				
+		echo '########## Archiving Artifacts ##########'
+                archiveArtifacts artifacts: 'target/*.jar'
+            }
+            post {
+                always {
+                    junit 'target/surefire-reports/*.xml'
+                }
+            }
+        }
+		
+        stage('Build Docker Image') {
+            when {
+                branch 'main'
+            }
+            steps {
+                echo '########## Building Petclinic Docker Image ##########'
+                script {
+                        app = docker.build("rodionpro/petclinic:${env.BUILD_NUMBER}")
+                }
+            }
+        }
+		
+        stage('Push Docker Image') {
+            when {
+                branch 'main'
+            }
+            steps {
+                echo '########## Pushing Petclinic Docker Image to Dockerhub ##########'
+                script {
+                    docker.withRegistry('https://registry.hub.docker.com', 'docker_hub_login' ) {
+                        app.push("${env.BUILD_NUMBER}")
+                        app.push("latest")
+                    }
+                }
+            }
+        }
+		
+        stage('Remove local images') {
+            steps {
+                echo '########## Delete the local docker images ##########'
+                sh("docker rmi -f rodionpro/petclinic:latest || :")
+                sh("docker rmi -f rodionpro/petclinic:${env.BUILD_NUMBER} || :")
+                sh("docker rmi -f registry.hub.docker.com/rodionpro/petclinic:latest || :")
+                sh("docker rmi -f registry.hub.docker.com/rodionpro/petclinic:${env.BUILD_NUMBER} || :")
+            }
+        }
+      
+       stage ('Deploy') {
+            steps {
+                echo '########## Ansible with dynamic inventory run petclinic image from Dockerhub on jenkins master and workers AWS EC2 on port 8888 ##########'
+                ansiblePlaybook(credentialsId: 'aws-terraform', playbook: 'ansible_templates/playbook.yml')
+            }
+        }
+
+    }
+}

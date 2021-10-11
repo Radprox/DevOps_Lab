@@ -1,0 +1,4277 @@
+///GIT
+sudo apt-get install git
+ssh-keygen -t rsa -C "stroymarketvir@gmail.com"
+git config --global user.name "Radprox"
+git config --global user.email stroymarketvir@gmail.com
+git gui&
+gitk& (show history)
+git status
+git init
+git clone
+git add -A (.)
+git commit -m "commit"
+git tag --list
+git tag addtagname
+git push --tags
+git stash save "description" сохранить все в хранилище не делая коммит, чтобы не потерять изменения, если нужно переключится на другую ветку
+git stash list
+git stash apply stash@{0} восстановить изменения, оставить стэш
+git stash pop (восстановить изменения,удалить стэш)
+git stash drop (clear)
+git branch newbranch или git checkout -b newbranch
+git checkout master переключится на ветку мастер
+git checkout . (возвращает исходное состояние, но не удаляет файлы которые не были закоммитены)
+git checkout file.txt (возвращает исходное состояние файла)
+git clean -xdf (очищает новые незакоммиченые и не добавленные в индекс файлы)
+git reset file.txt (отменить закоммиченый файл)
+git revert (отменить последний коммит)
+git merge develop (зальет содержимое ветки develop в текущую ветку)
+git log (reflog)
+git push
+git pull (с репозитория гит в локальное хранилище)
+
+///VIRTUALBOX
+Oracle\VirtualBox>.\VBoxManage showvminfo name_of_vm
+Oracle\VirtualBox>.\VBoxManage create vm --name newvm
+Oracle\VirtualBox>.\VBoxManage modifyvm vm_name --memory 1024
+Oracle\VirtualBox>.\VBoxManage startvm vm_name
+Oracle\VirtualBox>.\VBoxManage controlvm vm_name poweroff
+Oracle\VirtualBox>.\VBoxManage clonevm vm_name
+
+//VAGRANT
+vagrant box add ubuntu/trusty64     vagrant box add bento/ubuntu-18.04
+vagrant init ubuntu/trusty64           создает файл конфига
+vagrant halt стоп
+vagrant destroy
+vagrant up
+
+////AWS
+aws configure --profile username
+aws s3 mb s3://bucket_name (make bucket)
+aws s3 cp "C:\dirname" s3://bucket_name/ --recursive(copy files from C:)
+aws s3 ls --profile scenario1_stroymarketvi
+
+aws ec2 describe-instances --profile user_scenario6_1_stroymarketvir
+
+sudo mysql -h database.amazon.rds.com -P 3306 -u admin -p
+sudo mysql -h database.amazon.rds.com -P 3306 -u admin -p database_name < database_name.sql
+sudo mysqldump -h database.amazon.rds.com -P 3306 -u admin -p database_name > database_name.sql
+
+aws dynamodb create-table --table-name Products --attribute-definitions AttributeName=ProductName, AttributeType=S AttributeName=ProductDescription, AttributeType=S --key-schema AttributeName=ProductName,KeyType=HASH AttributeName=ProductDescription,KeyType=RANGE --provisioned-throughput ReadCapacityUnits=1,WriteCapacityUnits=1 --profile profile_name 
+aws dynamodb put-item --table-name Products --item file://items.json --return-consumed-capacity TOTAL --return-item-collection-metrics SIZE --profile admin
+aws dynamodb scan --table-name Products --profile admin
+aws dynamodb query --key-condition-expression file://key-condition.json --profile admin
+aws dynamodb describe-table --table-name Products --profile admin
+
+aws ssm describe-parameters --profile user_scenario6_1_stroymarketvir
+aws ssm get-parameter --name "sc6-ec2-public-key" --profile user_scenario6_1_stroymarketvir
+
+aws lambda invoke --function-name sc6_complete_stroymarketvir --payload '{\"key\":\"stroymarketvir00b31420a3428bb8\"}' --cli-binary-format raw-in-base64-out  response.json --profile user_scenario6_1_stroymarketvir
+
+aws codecommit create-repository --repository-name RepoFromCLI --repository-description "My demonstration repository"
+
+
+///AWS CDK
+mkdir cdk-workshop && cd cdk-workshop
+cdk init sample-app --language typescript
+npm run watch
+cdk synth (show cloudformation template)
+cdk bootstrap
+cdk diff
+cdk deploy
+cdk destroy
+npm install @aws-cdk/aws-lambda
+npm install @aws-cdk/aws-apigateway
+npm install @aws-cdk/aws-dynamodb
+npm install cdk-dynamo-table-viewer
+npm install --save-dev jest @types/jest @aws-cdk/assert
+npm run build && npx jest
+
+
+///SQL
+sudo apt install mysql-server
+sudo mysql_secure_installation
+sudo mysql (sudo mysql -u user_name -p)
+CREATE USER 'sammy'@'localhost' IDENTIFIED BY 'password';
+GRANT ALL PRIVILEGES ON *.* TO 'sammy'@'localhost' WITH GRANT OPTION;
+GRANT CREATE, UPDATE ON dbname.* TO 'sammy'@'localhost';
+SHOW GRANTS FOR 'sammy'@'localhost';
+CREATE DATABASE db_name;
+USE db_name;
+SELECT * FROM table_name;
+SELECT column_name FROM table_name GROUP BY id;
+show databases;
+CREATE TABLE CUSTOMERS(
+  ID INT NOT NULL,
+  NAME VARCHAR (20) NOT NULL,
+  AGE  INT NOT NULL,
+  ADDRESS  CHAR (25) ,
+  SALARY DECIMAL (18, 2), 
+  PRIMARY KEY (ID)
+);NOT NULL — это ограничения, указывающие, что эти поля не могут содержать значение NULL при создании записей в этой таблице
+show tables;
+DESC table_name;
+mysqldump -u user -p db_name > file_dbdump_name.sql
+mysqldump -u user -p db_name < file_dbdump_name.sql
+
+
+
+
+///LINUX
+sudo su - user перейти на user
+sudo su - (зайти под рутом) sudo -i (эмулировать вход рута)
+w список залогинившихся юзеров
+env (инфа об окружении и переменные)
+id (get user info)
+passwd username  change password
+chage -l username (покажет срок годности пароля)
+passwd -S  Display account status information. The status information consists
+           of 7 fields. The first field is the user's login name. The second
+           field indicates if the user account has a locked password (L), has
+           no password (NP), or has a usable password (P). The third field
+           gives the date of the last password change. The next four fields
+           are the minimum age, maximum age, warning period, and inactivity
+           period for the password. These ages are expressed in days.
+cat /etc/passwd   
+mark:x:1001:1001:mark,,,:/home/mark:/bin/bash
+[--] - [--] [--] [-----] [--------] [--------]
+|    |   |    |     |         |        |
+|    |   |    |     |         |        +-> 7. Login shell
+|    |   |    |     |         +----------> 6. Home directory
+|    |   |    |     +--------------------> 5. GECOS
+|    |   |    +--------------------------> 4. GID
+|    |   +-------------------------------> 3. UID
+|    +-----------------------------------> 2. Password
++----------------------------------------> 1. Username
+cat /etc/shadow 
+adduser username
+usermod (change user home dir, group, other)
+groupmod
+chfn username (change user info)
+man ls (or info ls or ls --help) manuals
+cp file.txt dir/dir (copy)
+scp file.txt user@11.11.11.11:~/usr/ (копировать на другой сервер)
+mv move
+rm
+sort
+diff file1 file 2 (compare)
+tar cvf home,tar /home create archive (czvf create archive and compress it)
+tar xvf home.tar extract archive (xzvf extr comp arch)
+gzip bigfile.stuff compress
+gzip -d vigfile.stuff.gz decompress
+zip -r archivename /home
+unzip archivename
+du -hs /was_logs/  (место)
+ls -a -l
+nano file.txt (редактор)
+touch file.txt (create,update file)
+echo "some text" > file.txt
+some text >> file.txt
+cat hello.sh | more (less)
+finger user(show user info) 
+echo "plan details" > ~/.plan (~/.pgpkey, project)
+tree -P '*.sh' --prune (show tree of all .sh files)
+tree -d -L 1 (show directory 1 level )
+file file.txt
+ln -s name softlink (мягкая ссылка, ярлык)
+ln name hardlink
+locate (search)
+findmnt показывает установленные в настоящее время файловые системы в Linux
+find /etc -name host*
+find . -name *.conf (искать в текущем каталоге)
+grep (регулярные выражения: ^abc найдет с abc в начале слова; $abc в конце слова; \* найдет все что начинается с спец символов *; [a-z] найдет все что содержит заданный диапазон; '^1\{3\}' найдет то что начинается с трех единиц подряд
+find . -name *.txt | grep filename -riv (-i insensetive нечуствительно к регистру, r recursive, v ищет в внутри файла -w дословное совпадение) найдет все файлы txt с именем filename 
+df (список подкл устройств)
+cat /etc/fstab
+id
+
+7 – read, write, and execute permission
+6 – read and write privileges
+5 – read and execute privileges
+
+4 – read privileges
+2 - write
+1 - execute 
+chmod o+w,g+x,u+x text.txt (permissions)
+chmod 777 text.txt
+chmod 4755 koshka.pl - устанавливает на файл koshka.pl бит SUID и заменяет обычные права на 755 (rwxr-xr-x).
+chmod u+s koshka.pl - тоже самое, только обычные права не перезаписываются.
+chmod 2755 koshka.pl - устанавливает на файл koshka.pl бит SGID и заменяет обычные права на 755 (rwxr-xr-x).
+chmod g+s koshka.pl - тоже самое, только обычные права не перезаписываются.
+chmod 1755 allex - Установить sticky-бит с заменой прав;
+chmod +t allex - добавление sticky к текущим правам.
+
+Значение umask содержит биты прав доступа, которые НЕ будут установлены во вновь создаваемых файлах и каталогах.
+umask 022 (изменит стандартные права при создании файлов на 666 – 022 = 644)
+
+
+//ЛОГИ
+/etc/rsyslog.conf; /etc/logrotate.conf; /etc/logrotate.d(конфигурация логов)
+sudo journalctl -p err (--since yesterday) посмотреть лог ошибок
+journalctl -u httpd (логи httpd)
+
+
+getfacl filename (покажет есть ли ACL rwxrwxrwx+)
+setfacl -m g:groupname:rwx directory/ (дать права определенной группе)
+
+//СЕТЬ
+
+ls /sys/class/net  #посмотреть сетевые интерфейсы
+ip addr show #replace ifconfig
+routel #rout table
+route -n
+ip route show
+ip link
+ip neigh ARP/neighbor tables
+ip rule 
+ip route add 10.0.1.20 dev eth1
+ip route add 10.0.8.0/24 via 10.0.1.55 #направлять траф с сети на хост
+ip n #arp table ip+mac
+
+ss -lntp | grep :80
+
+arping (2level osi data-link, mac), ping, traceroute, tracepath (3level network), ss, telnet, tcpdump, nc (4 level transport), dig, service tools (5-7level)
+
+ssh -L 8080:10.0.1.20:80 cloud_user@10.0.1.10  # ssh tunnel
+
+nmcli #centos/ub net interfaces info
+nmcli connection
+nmcli c show
+nmcli d
+nmcli d show eth1
+nmcli con mod System\ eth0 ipv4.method manual ipv4.addresses <IP_ADDRESS> ipv4.gateway <GATEWAY_ADDRESS> ipv4.dns <DNS_ADDRESS> ipv4.dns-search ec2.internal #assign static ip
+nmcli con show System\ eth0 | grep ipv4
+nmcli c mod System\ eth0 ipv4.addresses 10.0.1.15/24,10.0.1.20/24  #add additional ip to device
+
+systemctl restart network
+
+traceroute google.com
+
+NIC Bonding and Teaming
+nmcli con add type bond con-name bond0 ifname bond0 mode active-backup(or loadbalance) ip4 192.168.51.170/24
+nmcli con add type bond-slave ifname eth5 master bond0
+
+dig example.com #show dns info
+cat /etc/nsswitch.conf   (hosts: files dns hostname) #dns troubleshooting
+vim /etc/hosts
+cat /etc/resolv.conf
+telnet 10.0.1.1 53 (port)
+#named servers
+yum install -y bind-utils NetworkManager bash-completion
+cat /usr/share/doc/bind-9.9.4/sample/etc/named.conf
+vim /etc/named.conf   # listen-on port 53 { 127.0.0.1; 10.0.1.10;}; allow-query.allow-transfer, recursion no. add zone
+
+
+ifconfig -a #deprecated
+
+/etc/netplan/01-netcfg.yaml
+sudo netplan apply # применить настройки из YAML-файла к работающей системе
+sudo netplan generate # сохранить текущие настройки в файл конфигурации networkd
+
+nmap hostname (список открытых портов)
+
+sudo tcpdump -i eth1 -ne >> /home/vagrant/tcpdump.txt
+sudo tcpdump -i eth1 -c 100 -ne -w /home/vagrant/tcpdump.pcap в файл для wireshark
+
+sudo apt install -y isc-dhcp-server
+/etc/default/isc-dhcp-server # Задать интерфейс для выдачи dhcp
+/etc/dhcp/dhcpd.conf 
+sudo systemctl restart isc-dhcp-server.service
+dhcp-lease-list список выданных ип ubuntu
+cat var/lib/dhclient/
+
+install openvpn
+firewall-cmd --permanent --add-port=1194/tcp
+firewall-cmd --permanent --add-masquerade
+firewall-cmd --reload
+
+
+/etc/ssh/sshd_config PermitRootLogin no #откл логин рутом
+///ФАЕРВОЛ
+
+firewall-cmd --list-all
+ss -lntp #services and ports
+iptables -L -n (статус фаервола)
+sudo apt install iptables-persistent netfilter-persistent
+iptables -F (сброс настроек)
+iptables -A INPUT -p tcp --tcp-flags ALL NONE -j DROP #блокирует нулевые пакеты
+iptables -A INPUT -m state --state INVALID -j DROP #блок пакетов без статуса
+iptables -A FORWARD -m state --state INVALID -j DROP #блок пакетов без статуса
+iptables -A INPUT -p tcp --tcp-flags ALL ALL -j DROP #сброс пакетов XMAS
+iptables -A INPUT -p tcp ! --syn -m state --state NEW -j DROP #защита от syn-flood
+iptables -A OUTPUT -p tcp ! --syn -m state --state NEW -j DROP #защита от syn-flood
+iptables -A INPUT -s 111.111.11.111 -j REJECT #блок определенного ip
+iptables -A INPUT -s ВАШ_IP -p tcp -m tcp --dport 22 -j ACCEPT #разрешает доступ по SSH (при условии, что порт 22-ой) с ВАШ_IP, где ВАШ_IP - это IP-адрес с которого нужен доступ (строку можно повторять нужное число раз, перечисляя разные IP-шники)
+iptables -A INPUT -p tcp --dport 22 -j DROP #запрещает доступ по SSH со всех IP, кроме указанных в строке выше
+iptables -A INPUT -i lo -j ACCEPT #разрешает трафик на локальный интерфейс. localhost часто используется для размещения, например, базы данных, к которой подключаются веб-сайт и почтовый сервер, т.е таким образом, сервер имеет доступ к базе данных, но взломать её через интернет сложно.
+iptables -A INPUT -p tcp -m tcp --dport 22 -j ACCEPT
+iptables -A INPUT -p tcp -m tcp --dport 2209 -j ACCEPT
+iptables -A INPUT -p tcp -m tcp --dport 53 -j ACCEPT #dns порт
+iptables -A INPUT -p tcp -m tcp --dport 80 -j ACCEPT
+iptables -A INPUT -p tcp -m tcp --dport 443 -j ACCEPT #разрешает трафик на 80-ый и 443-ий порты, т.е веб-сервер, т.е http и https
+iptables -A INPUT -p tcp -m tcp --dport 25 -j ACCEPT #разрешает smtp-трафик
+iptables -A INPUT -p tcp -m tcp --dport 465 -j ACCEPT #разрешает smtp-трафик
+iptables -A INPUT -p tcp -m tcp --dport 583 -j ACCEPT
+iptables -A INPUT -p tcp -m tcp --dport 110 -j ACCEPT #разрешает pop-трафик
+iptables -A INPUT -p tcp -m tcp --dport 995 -j ACCEPT #разрешает pop-трафик
+iptables -A INPUT -p tcp -m tcp --dport 143 -j ACCEPT #разрешает imap-трафик
+iptables -A INPUT -p tcp -m tcp --dport 993 -j ACCEPT #разрешает imap-трафик
+iptables -I INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT #разрешаем исход соединения (ping). если не собираетесь использовать, то можно не указывать, но тогда есть вероятность того, что не будут работать, скажем, обновления из интернета
+iptables -P OUTPUT ACCEPT #закрываем остальные порты наглухо и разрешаем исходящие соединения c сервера
+iptables -P INPUT DROP #закрываем остальные порты наглухо и разрешаем исходящие соединения c сервера
+iptables-save  > /etc/iptables/rules.v4
+ip6tables-save > /etc/iptables/rules.v6
+systemctl stop netfilter-persistent
+systemctl start netfilter-persistent
+systemctl restart netfilter-persistent
+systemctl disable (отключить при загрузке)
+
+//фаервол 2 имеет GUI
+apt install firewalld firewall-config
+firewall-cmd --list-all
+apt-get install -y x11-apps
+export XAUTORITY=/home/username/.Xautority
+sudo firewall-config (run gui)
+
+
+
+/etc/fail2ban/ #Защита от брутфорс
+[sshd]
+port    = port ssh
+logpath = %(sshd_log)s
+maxretry = 6
+filter = sshd 
+enabled = true
+
+install squid #block websites, ip, subnet. proxy
+systemctl enable squid && systemctl start squid
+firewall-cmd --permanent --add-service=squid
+firewall-cmd reload
+vim /etc/squid/squid.conf
+...
+# INSERT YOUR OWN RULE(S) HERE TO ALLOW ACCESS FROM YOUR CLIENTS
+
+acl whitelist dstdomain .linuxacademy.com
+http_access allow whitelist
+http_access allow localnet
+...
+systemctl restart squid
+export http_proxy="http://10.0.1.10:3128"
+curl -I example.com
+tail /var/log/squid/access.log
+
+
+nmcli (configure network)
+ip a s (show ip address)
+ip addr add 19.91.91.1/24 dev eth0 (add ip)
+ip adde del 19.91.91.1/24 dev eth
+
+//cron, at
+crontab -e
+at now +1 hour (запланировать таск at 12:00am)
+atq see list of at jobs
+
+cat /etc/crontab
+cd /etc/cron.d
+
+uname -r (версия ядра убунту)
+
+
+//процессы
+pstree  tree of processes
+ps fax -u vagrant
+ps aux | grep dd
+ps aux | head  Listing shows a list of a few processes
+ps -ef full info about processes
+ps -A
+pgrep
+top (manage processes, n можно изменять приоритет)
+htop
+jobs (вывести фоновые задания(команды с & в конце уходят в фон))
+fg номер задачи(вывести фоновую задачу в оболочку)/ bg (отправить остановленное задание в фон)
+
+ls -F /proc/$$  процессы procfs. Файловая система proc (в дальнейшем просто procfs) является виртуальной файловой системой, которая предоставляет информацию о процессах
+cat /proc/cpuinfo инфа о процессоре
+ps fax (states)
+kill -l список сигналов
+kill (SIGTERM exit cleanly)
+SIGINT (пользователь просит прервать процесс ctr+c)
+kill -9 (SIGKILL принудительно убить)
+SIGTSTP приостанавливает процесс по команде пользователя обычно эта команда – сочетание клавиш Ctrl-Z
+SIGHUP Обнаружено зависание на управляющем терминале или смерть контролирующего процесса
+
+//VirtualMachines
+virsh list --all 
+virsh start centos7.0
+virsh edit centos7.0
+
+//partitions
+
+fdisk -l (list of all MBR disks) 82 linux swap partition type, 82 linux type, 8e linux LVM type
+fdisk name (перейти/создать диск) d - delete partition; n - create patr; p - look patr table; w - write and exit
+partprobe (apply changes)
+
+gdisk -l (list of GPT partitions) 8200 Linuxswap; 2300 Linux part type; 8e00 Linux LVM tupe
+gdisk /dev/disk (create) d -delete; n - create; p look table; w -write exit
+
+mkfs.xfs /dev/dev1 (formatthe disk)
+mkdir /mnt/mountpoint (create mountpoint)
+mount /dev/dev /mnt/mountpoint (mount the disk; mount -a will mount all described in /etc/fstab)
+enadle mount at boot time: edit /etc/fstab
+xfs_admin (set xfs flags)
+blkid (show uuid of partitions file /etc/fstab)
+
+pvcreate /dev/dev1 /dev/dev2 (physical volume create)
+vgcreate groupname /dev/dev1 dev/dev2 (physical group create)
+pvdispay (vgdisplay)
+lvcreate -L 100m physicalgroupname -n lvname (create logical volume)
+lvdisplay
+
+NFS перенос файлов с одного сервера на дрогой (не секьюрно)
+systemctl start rpcbind
+showmount -e server_ip
+mount -t nfs server_ip:/server_path /client_path
+
+//SAmba (SERVER) 
+mkdir /smb
+chmod 777 /smb
+install samba -y
+vim /etc/samba/smb.conf
+[share]
+        browsable = yes
+        path = /smb
+        writable = yes
+testparm
+useradd shareuser
+smbpasswd -a shareuser
+systemctl start smb
+ip a s  (Copy the private inet address on eth0 SERVER_IP)
+yum install nfs-utils -y
+showmount -e <NFS_SERVER_IP>
+systemctl start rpcbind
+mount -t nfs <NFS_SERVER_IP>:/nfs /mnt/nfs
+mount
+cd /mnt/nfs
+touch file
+
+//NFS client (NFS_SERVER)
+yum install cifs-utils -y
+mkdir /mnt/smb
+mount -t cifs //<SERVER_IP>/share /mnt/smb -o username=shareuser,password=<SMBPASSWD_PASS>
+mount
+yum install nfs-utils -y
+mkdir /nfs
+vim /etc/exports add: /nfs *(rw)
+chmod 777 /nfs
+exportfs -a
+systemctl start {rpcbind,nfs-server,rpc-statd,nfs-idmapd}
+showmount -e localhost
+ip a s
+
+
+
+//BASH
+
+env (инфа об окружении и переменные)
+printenv (все переменные)
+set (переменные текущей сессии пользователя)
+FIRSTNAME="Vasia" (создать переменную; echo $FIRSTNAME вывести переменную)
+export FIRSTNAME (добавить переменную в env)
+DATE=`date` (статический результат команды(чтобы обновить нужно перезаписать переменную))
+
+read FIRSTNAME (запишет введенную юзером инфу в переменную)
+ 
+shopt -s expend_aliases (подключит алиасы если они прописаны в файле)
+alias TODAY="date"
+A=`TODAY`
+echo "With alias date is $A" (выведет динамический результат команды)
+
+expr 10 / 2 (выведет 5) 
+expr 10 \* 8 (выведет 80)
+expr \( 2 + 2 \) \* 4 (будет 16)
+
+echo "`date`" выведет текущую дату
+ln -s `pwd`/test /home/geek/linkedname (в таких кавычках команда выполнится и подставит значение тек. директории)
+echo '$test' (выведет текст $test) echo "$test" выведет переменную
+\ используется для escape спец символов и вывода их как строчного текста
+echo ~ (home directory)
+echo ~+ (current dir =pwd)
+echo sh{o,or,oo}t (выведет shot short shoot)
+echo "${!HO*}" (вевыдет все переменные начинающиеся HO)
+
+MYARRAY=("First" "Second" "Third")
+echo ${MYARRAY[0]} (выведет First, 1 выведет Second)
+ARRAY[3]="Fourth" (добавит в массив значение)
+
+|| (OR)  && (AND)
+
+Статусы команд
+0 Успешное выполнение команды   
+1 Команда завершилась неудачей во время расширения или перенаправления, статус завершения больше ноля.   
+2 Некорректное использование команды   
+126 Команда найдена, но не выполнена   
+127 Команда не найдена
+
+Проверить echo $? после команды
+
+
+//ANSIBLE
+adduser ansible, делаем пары ключей, даем права рута и убираем пароль sudo visudo; vim /etc/sudoers: ansible ALL=(ALL) NOPASSWD: ALL ; sudo vim /etc/ssh/sshd_config , перезапускаем sshd
+
+sudo vim /etc/ansible/ansible.cfg
+ansible-config list
+vim /etc/ansible/hosts (inventory)
+-b (become sudo) -m (mode) -a (args)
+ansible -i conf.name localhost -m ping (call to non def confog)
+ansible -i configname groupname -m setup (info about sys)
+ansible -i configname groupname -m setup -a "filter=*dist*"
+
+ansible -i configname groupname -b -m package -a "name=ntpdate state=latest"
+ansible -i configname groupname -b -m apt -a "name=elinks state=installed" (install elinks)
+
+ansible -i configname groupname -m shell -a "echo $PATH > /home/ansible/ans.txt"
+
+ansible -i configname groupname -m file -a "name=/dir/testfile state=touch"
+ansible -i configname groupname -m copy -a "src=/dir/testfile dest=testfile"
+ansible -i configname groupname -m lineinfile -a "line='some text' path=file insertbefore='sometext'" добавить текст в определенное место в файле
+ansible -i configname groupname -m get_url -a "url=http://url dest=abdolutepath_wheresave"
+ansible -i configname groupname -m archive -a "path=/absolutepath/testfile format=zip dest=/absolutepath/file.zip"
+ansible -i configname groupname -m unarchive -a "remote_src=yes src=/absolutepath/testfile.zip dest=/absolutepath/"
+
+ansible -i configname groupname -b -m user -a "name=username"
+ansible -i configname groupname -b -m user -a "name=username state=absent remove=yes" удалить юзера
+ansible -i configname groupname -b -m group -a "name=groupname"
+ansible -i configname groupname -b -m user -a "name=username group=groupname" attach user to group
+
+ansible -i configname groupname -b -m service -a "name=httpd state=started(restared,reloaded,stoped) enabled=yes(for start in boot)"
+ansible -i inv aws -a "/home/ansible/script.sh" -B 15 (time in sec) выведет, отработал ли скрипт за данное время или нет -P 0 отменит слежение
+
+ansible-playbook -i configname play.yml
+--- # play ansible example
+- hosts: aws
+  become: yes
+  tasks:
+          - name: epel-release
+            package:
+                    name: epel-release
+                    state: present
+          - name: install software
+            package:
+                    name: nginx
+                    state: present
+          - name: Insert index page
+            template:
+                    src: index.html
+                    dest: /usr/share/nginx/index.html
+          - name: start nginx
+            service:
+                    name: nginx
+                    state: started
+                    enable: yes
+
+
+--------
+
+ansible-playbook vars_play.yml -e @vars.yml (attach custom vars)
+group_vars/groupname/vars.yml example:
+working_dir: /home/ansible/working_dir
+
+service_list:
+- httpd
+- nfs
+- mariadb
+
+share_paths:
+  nfs: /mnt/nfs
+  cifs: /mnt/cifs
+-------------
+
+--- #template example LA: vim /home/ansible/file.j2
+
+  %sysops 34.124.22.55 = (ALL) ALL
+  Host_Alias WEBSERVERS = server1, server2
+  Host_Alias DBSERVERS = serverA, serverB
+  %httpd WEBSERVERS = /bin/su - webuser
+  %dba DBSERVERS = /bin/su - dbuser
+  
+vim /home/ansible/security.yml
+ ---
+ - hosts: all
+   become: yes
+   tasks:
+   - name: deploy sudo template
+     template:
+       src: /home/ansible/hardened.j2
+       dest: /etc/sudoers.d/hardened
+       validate: /sbin/visudo -cf %s
+	   
+--# template example easy	   
+- hosts: localhost
+gather_facts: no
+become: yes
+vars:
+code_name: whisky
+version: 4.2
+tasks:
+- name: deploy config file
+template:
+src: config.j2
+dest: /opt/config
+----
+
+
+  pre_tasks:
+    - name: Update apt
+      become: yes
+      apt:
+        cache_valid_time: 1800
+        update_cache: yes
+
+
+ansible-vault encrypt /home/ansible/secret	
+ansible-vault view(edit) /home/ansible/secret
+echo "<YOUR VAULT PASSWORD>" > /home/ansible/vault
+ansible-playbook --vault-password-file /home/ansible/vault /home/ansible/secPage.yml
+
+	
+ansible-vault encrypt --vault-id labelname@filename (зашифровать данные)
+ansible-vault deencrypt filename
+
+ansible-playbook secret.yml --vault-id labelname@filename
+##add secret using vault
+- hosts: localhost
+ vars_files:
+ /home/ansible/vault
+ tasks:
+ - name: add cetret text to open.txtlineinfile:
+ path: /home/ansible/open.txtcreate: yes
+ line: "{{ password }}"
+ no_log true
+ 
+ 
+ # DEBUG
+ ---
+- hosts: localhost
+  tasks:
+    - name: download transaction_list
+      block:
+        - get_url:
+            url: http://apps.l33t.com/transaction_list
+            dest: /home/ansible/transaction_list
+        - debug: msg="File downloaded"
+      rescue:
+        - debug: msg="l33t.com appears to be down.  Try again later."
+      always:
+        - debug: msg="Attempt completed."
+		
+		
+# ROLES (создание роли baseline)
+
+sudo mkdir baseline && sudo chown ansible.ansible /etc/ansible/roles/baseline
+mkdir /etc/ansible/roles/baseline/{templates,tasks,files}
+vim baseline/tasks/main.yml
+---
+- name: configure motd
+  import_tasks: deploy_motd.yml
+  
+
+
+/// DOCKER
+# install
+#utilites
+sudo yum install -y yum-utils \
+  device-mapper-persistent-data \
+  lvm2
+#set stable repo
+  sudo yum-config-manager \
+    --add-repo \
+    https://download.docker.com/linux/centos/docker-ce.repo
+	
+sudo yum -y install docker-ce
+sudo systemctl start docker && sudo systemctl enable docker
+#add user to cthe docker group
+sudo usermod -aG docker cloud_user
+
+
+docker image -h (list)
+docker image pull nginx
+docker image ls (list)
+docker image (container) inspect 35c43ace9216(im id)
+docker container run busybox
+docker container ls -a
+docker container run -P (random port) -d (in background) nginx
+docker container ps
+docker container stats 1ad6570042a1 (сколько ресурсов жрет контейнер)
+docker container top 35c43ace9216(id)
+docker container attach (id) attach local standart input-output and erros streams to a running container
+docker container start 1ad6570042a1
+docker container exec -it 1ad6570042a1 /bin/bash (выполнить команду внутри контейнера)
+docker container run -d --expose 3000 -p 8081:80/tcp -p 8081:80/udp nginx (назанчить порт nginx и привязать его к порту хоста)
+docker container port id
+
+docker images
+docker image build 
+docker image history
+
+#поиск images
+sudo docker search lamp 
+docker pull mattrayner/lamp (сохраняются в /var/lib/docker/)
+docker run -it mattrayner/lamp /bin/bash > service apache2 start 
+
+
+docker exec -it name bash выполнить команду внутри контейнера
+docker container logs id
+docker service logs id
+
+docker network ls
+docker network create br00
+docker network inspect br00
+docker network connect br00 <container>
+docker network create --subnet <SUBNET> --gateway <GATEWAY> <NAME>
+docker container run -name <name> -it --network <network> --ip <IP> <IMAGE> <CMD>
+
+#LAB   We're developing a new containerized application for a client. The application will consist of two containers: one for the frontend application, and one for the database. Our client has security concerns about the database, and they want it to run on a private network that is not publicly accessible.So, we'll need to create two networks. One will house the frontend application that is publicly accessible, and the other network, which is flagged as internal, is where the database will reside. We have to create a MySQL container connected to the private network and an Nginx container that is connect to both networks.
+docker network create frontend
+docker network create localhost --internal
+docker container run -d --name database \
+ --network localhost \ 
+ -e MYSQL_ROOT_PASSWORD=P4ssW0rd0! \
+ mysql:5.7
+docker container run -d \ 
+ --name frontend-app \
+ --network frontend  \
+ nginx:latest
+docker network connect localhost frontend-app
+docker container inspect frontend-app
+
+docker volume -h
+docker volume ls
+docker volume create
+docker volume inspect
+
+#LAB We need to deploy a MySQL container to our development environment. Because we will be working with mock customer data that needs to be persistent, the container will need a volume. Create a volume called mysql_data. Then deploy a MySQL container that will use this volume to store database files.
+docker volume create mysql_data
+docker container run -d --name app-database \
+ --mount type=volume,source=mysql_data,target=/var/lib/mysql \
+ -e MYSQL_ROOT_PASSWORD=P4ssW0rd0! \
+ mysql:latest
+ docker container inspect app-database
+
+#portainer (GUI docker) open with http://ip:8080
+docker volume create portainer_data
+docker container run -d --name portainer -p 8080:9000 \
+--restart=always \
+-v /var/run/docker.sock:/var/run/docker.sock \
+-v portainer_data:/data portainer/portainer
+
+#docker-compose tool for manage and describe many images and containers
+sudo curl -L "https://github.com/docker/compose/releases/download/1.23.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+sudo chmod +x /usr/local/bin/docker-compose
+docker-compose --version
+mkdir -p compose/commands
+cd compose/commands
+
+vi docker-compose.yml
+version: '3'
+services:
+  web:
+    image: nginx
+    ports:
+    - 8080:80
+    volumes:
+    - nginx_html:/usr/share/nginx/html/
+    links:
+    - redis
+  redis:
+    image: redis
+volumes:
+  nginx_html: {}
+
+docker-compose up -d
+docker-compose ps (list)
+docker-compose stop (start, restart) down to delete
+
+#swarm
+docker swarm init \
+--advertise-addr [PRIVATE_IP]
+docker swarm join --token [TOKEN] \
+[PRIVATE_IP]:2377
+docker node ls
+docker node inspect [NODE_NAME]
+
+docker service create -d --name [NAME] \
+-p [HOST_PORT]:[CONTAINER_PORT] \
+--replicas [REPLICAS] \
+[IMAGE] [CMD]
+docker service create -d --name nginx_service -p 8080:80 --replicas 2 nginx:latest
+docker service ls
+docker service inspect [NAME]
+docker service logs [NAME]
+docker service ps [NAME]
+docker service scale [NAME]=[REPLICAS]
+docker service update [OPTIONS] [NAME]
+
+docker network create -d overlay [NAME]
+docker service update --network-add [NETWORK] [SERVICE]
+docker service update --network-rm [NETWORK] [SERVICE]
+docker stack deploy --compose-file docker-compose.yml name (деплой компос)
+docker stack ls
+
+mkdir -p seccomp/profiles/chmod
+cd seccomp/profiles/chmod
+wget https://raw.githubusercontent.com/moby/moby/master/profiles/seccomp/default.json  Removing chmod, fchmod and fchmodat will deprecate it
+docker container run --rm -it --security-opt seccomp=./default.json alpine sh
+docker container run -d --name resource-limits --cpus=".5" --memory=512M --memory-swap=1G rivethead42/weather-app
+docker container inspect resource-limits
+
+docker secret ls
+docker secret inspect [NAME]
+openssl rand -base64 20 > mysql_root_password.txt
+docker secret create mysql_root_password 
+docker network create -d overlay mysql_private
+docker service create \
+     --name mysql_secrets \
+     --replicas 1 \
+     --network mysql_private \
+     --mount type=volume,destination=/var/lib/mysql \
+     --secret mysql_root_password \
+     --secret mysql_password \
+     -e MYSQL_ROOT_PASSWORD_FILE="/run/secrets/mysql_root_password" \
+     -e MYSQL_PASSWORD_FILE="/run/secrets/mysql_password" \
+     -e MYSQL_USER="myUser" \
+     -e MYSQL_DATABASE="myDB" \
+     mysql:5.7
+
+##############docker+jenkins lab ##################################################
+###################################################################################
+Deploying a Docker Container with Jenkins Pipelines
+Log in to the Jenkins instance using the credentials provided in a new browser tab:
+
+<PUBLIC_IP_ADDRESS>:8080
+
+Log in to the Jenkins server using the credentials provided to retrieve the temporary admin password for the Jenkins instance:
+
+ssh cloud_user@<PUBLIC_IP_ADDRESS>
+
+Configure Jenkins to run the new dockerized train-schedule pipeline.
+Access the Jenkins instance and create the first admin user.
+
+Using the cloud_user password, create a global Jenkins credential for the production server.
+
+Kind: Username with password
+Scope: Global
+Username: deploy
+Password:
+ID: webserver_login
+Description: Webserver Login
+Create a global Jenkins credential for the Docker image registry (Docker Hub).
+
+Kind: Username with password
+Username:
+Password:
+ID: docker_hub_login
+Description: Docker Hub Login
+Note: You will need a Docker hub account in order to use Docker Hub as an image registry.
+
+Configure a global property in Jenkins to store the production server IP by navigating to Manage Jenkins > Configure System and adding a environment variable.
+
+Name: prod_ip
+Value:
+Make a personal fork of the GitHub repo at:
+
+https://github.com/linuxacademy/cicd-pipeline-train-schedule-dockerdeploy
+Generate a new GitHub API key to allow Jenkins to access the forked repo by navigating to Profile > Settings > Developer Settings > Personal Access Tokens > Generate New Token.
+
+Token Description: Jenkins
+Permissions: admin-repo_hook
+Copy the GitHub token.
+
+In Jenkins, create a Multibranch Pipeline project named train-schedule.
+
+Under Credentials, add the GitHub account used to fork the repo to Jenkins.
+
+Kind: Username with password
+Scope: Global
+Username:
+Password:
+ID: github_key
+Description: Github Key
+Select the Github Key and the forked repository.
+
+Owner:
+Repository: cicd-pipeline-train-schedule-dockerdeploy
+Click save.
+
+Successfully deploy the train-schedule app to production as a Docker container using the Jenkins Pipeline.
+Modify the Jenkinsfile in GitHub to build and push the Docker image to Docker Hub, and commit the changes.
+
+pipeline {
+    agent any
+    stages {
+        stage('Build') {
+            steps {
+                echo 'Running build automation'
+                sh './gradlew build --no-daemon'
+                archiveArtifacts artifacts: 'dist/trainSchedule.zip'
+            }
+        }
+        stage('Build Docker Image') {
+            when {
+                branch 'master'
+            }
+            steps {
+                script {
+                    app = docker.build("<DOCKER_HUB_USERNAME>/train-schedule")
+                    app.inside {
+                        sh 'echo $(curl localhost:8080)'
+                    }
+                }
+            }
+        }
+        stage('Push Docker Image') {
+            when {
+                branch 'master'
+            }
+            steps {
+                script {
+                    docker.withRegistry('https://registry.hub.docker.com', 'docker_hub_login') {
+                        app.push("${env.BUILD_NUMBER}")
+                        app.push("latest")
+                    }
+                }
+            }
+        }
+    }   
+}
+In Jenkins, click Build Now.
+
+Note: The initial build may take several minutes to complete.
+
+In Docker Hub, under Repositories, select the train-schedule app.
+
+Click the Tags tab to verify that the build was pushed successfully.
+
+In GitHub, modify the Jenkinsfile to include a stage that pushes the build to the production server, and commit the changes.
+
+stage ('DeployToProduction') {
+    when {
+        branch 'master'
+    }
+    steps {
+        input 'Deploy to Production'
+        milestone(1)
+        withCredentials ([usernamePassword(credentialsId: 'webserver_login', usernameVariable: 'USERNAME', passwordVariable: 'USERPASS')]) {
+            script {
+                sh "sshpass -p '$USERPASS' -v ssh -o StrictHostKeyChecking=no $USERNAME@${env.prod_ip} \"docker pull <DOCKER_HUB_USERNAME>/train-schedule:${env.BUILD_NUMBER}\""
+                try {
+                   sh "sshpass -p '$USERPASS' -v ssh -o StrictHostKeyChecking=no $USERNAME@${env.prod_ip} \"docker stop train-schedule\""
+                   sh "sshpass -p '$USERPASS' -v ssh -o StrictHostKeyChecking=no $USERNAME@${env.prod_ip} \"docker rm train-schedule\""
+                } catch (err) {
+                    echo: 'caught error: $err'
+                }
+                sh "sshpass -p '$USERPASS' -v ssh -o StrictHostKeyChecking=no $USERNAME@${env.prod_ip} \"docker run --restart always --name train-schedule -p 8080:8080 -d <DOCKER_HUB_USERNAME>/train-schedule:${env.BUILD_NUMBER}\""
+            }
+        }
+    }
+}
+In Jenkins, click Build Now.
+
+Once the build is complete, using a web browser, verify that the application has been deployed successfully.
+
+`<PRODUCTION_SERVER_PUBLIC_IP_ADDRESS>:8080`
+
+#########################publish over ssh#############################
+######################################################
+
+Implementing Automated Deployment Through a Jenkins Pipeline
+Introduction
+Jenkins Pipeline is a powerful tool for implementing continuous delivery. In order to fully utilize Jenkins Pipeline, you will need to implement an automated deployment. This learning activity will guide you through the process of deploying code as part of a Jenkins pipeline. After completing this exercise, you will have a basic familarity with what automated deployment using Jenkins Pipeline looks like.
+
+Solution
+In a new browser tab, log in to the Jenkins instance using the Jenkins server public credentials provided:
+
+<PUBLIC_IP_ADDRESS>:8080
+
+Using the same credentials, open a terminal window and log in to the Jenkins server using SSH to retrieve the temporary admin password:
+
+ssh cloud_user@<PUBLIC_IP_ADDRESS>
+
+Retrieve the temporary admin password:
+
+sudo cat /var/lib/jenkins/secrets/initialAdminPassword
+
+Copy the temporary admin password and paste it into the Administrator password field in the new browser tab.
+
+Click Continue.
+
+Deploy the App to the Staging Server Via the Jenkins Pipeline
+Getting started
+On the Create First Admin User form, provide the following information:
+Username: jenkins
+Password: random
+Confirm password: random
+Full name: jenkins
+Email address: **noreply@linuxacademy.com**
+Click Save and Continue > Start using Jenkins.
+Configure staging and production Servers for the Publish Over SSH Plugin
+On the lab page, copy the staging server public IP address.
+In the Jenkins tab in your browser, click Manage Jenkins and then click Configure System.
+Scroll to the bottom of this page to find the Publish over SSH section.
+In SSH Servers, click Add.
+Add the following SSH Server values, replacing with the IP address copied earlier:
+Name: staging
+Hostname:
+Remote Directory: /
+Click Add.
+Return to the lab page and copy the production server public IP address.
+Add the following SSH Server values, replacing with the IP address copied earlier:
+Name: production
+Hostname:
+Remote Directory: /
+Click Save.
+Set Up Jenkins Credentials
+From the left menu, click Credentials.
+In Stores scoped to Jenkins, click global.
+On the left, click Add Credentials.
+Add the following values:
+Username: deploy
+Password: jenkins
+ID: webserver_login
+Description: Webserver Login
+Click OK to save our changes.
+Set up the Jenkins Project
+On the top menu, click Jenkins to return to the main page.
+From the left menu, click New Item.
+Enter the item name "train-schedule".
+Select Multibranch Pipeline and click OK.
+Navigate to the train-schedule Git repo and click Fork to fork the repo to your account.
+From the GitHub top menu, click the avatar icon and click Settings > Developer settings > personal access tokens > Generate new token.
+In Token description, enter "Jenkins".
+Select admin:repo_hook. and click Generate token.
+Copy the generated API token to the clipboard.
+Return to the Jenkins page and select the Branch sources tab.
+In Branch Sources, click Add source and select GitHub.
+In Credentials, click Add and select Jenkins.
+Set the following values:
+Username: Your GitHub username
+Password: Generated API token copied earlier
+ID: github_key
+Description: GitHub Key
+Click Add.
+In Credentials, select the newly created GitHub Key credential.
+In Owner, enter your GitGub username.
+In Repository, select cicd-pipeline-train-schedule-cd.
+Click Save.
+From the top menu, click train-schedule and then click master to view the initial build in the master branch.
+Create a Stage in the Jenkinsfile and Run the Build
+From the GitHub personal fork, open the Jenkinsfile and click the pencil icon to edit the file's contents.
+Delete the file contents.
+In a new browser tab, access the solution Jenkinsfile on the Github example-solution branch and copy the DeployToStaging stage text.
+Paste the text into the Jenkinsfile in our GitHub fork.
+Click Commit changes.
+Return to the Jenkins Branch master page.
+On the left menu, click Build Now.
+To test our deployment, copy the staging server public IP address again from the lab page.
+Open a new browser tab and paste the IP address, specifying the port 3000. Our train schedule application should load successfully.
+Deploy the App to the Production Server Via the Jenkins Pipeline
+From the GitHub personal fork, open the Jenkinsfile and click the pencil icon to edit the file's contents.
+In a new browser tab, access the solution Jenkinsfile on the Github example-solution branch and copy the DeployToProduction stage text.
+Paste the text into the Jenkinsfile in our GitHub fork.
+Click Commit changes.
+Return to the Jenkins Branch master page.
+On the left menu, click Build Now.
+Hover over DeployToProduction and click Proceed.
+To test our deployment, copy the production server public IP address again from the lab page.
+Open a new browser tab and paste the IP address, specifying the port 3000. Our train schedule application should load successfully.
+Conclusion
+Congratulations — you've completed this hands-on lab!
+
+
+////////////////////////// KUBERNETIS
+#install on master and all nodes
+curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+cat << EOF | sudo tee /etc/apt/sources.list.d/kubernetes.list
+deb https://apt.kubernetes.io/ kubernetes-xenial main
+EOF
+sudo apt-get update
+sudo apt-get install -y kubelet=1.15.7-00 kubeadm=1.15.7-00 kubectl=1.15.7-00
+sudo apt-mark hold kubelet kubeadm kubectl
+kubeadm version 
+
+sudo kubeadm init --pod-network-cidr=10.244.0.0/16
+mkdir -p $HOME/.kube
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+sudo chown $(id -u):$(id -g) $HOME/.kube/config
+kubeadm token create --print-join-command (сгенерировать токен для рабов)
+kubectl get nodes
+kubectl get namespaces
+kubectl get pods -o wide (json)
+kubectl describe pod nginx
+
+#cluster network Flannel
+#on all nodes
+echo "net.bridge.bridge-nf-call-iptables=1" | sudo tee -a /etc/sysctl.conf
+sudo sysctl -p
+#on master 
+kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
+kubectl get nodes
+kubectl get pods -n kube-system
+
+#deployment
+cat <<EOF | kubectl create -f -
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  labels:
+    app: nginx
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.15.4
+        ports:
+        - containerPort: 80
+EOF
+
+kubectl get deployments
+kubectl edit deployment name
+kubectl describe deployment nginx-deployment
+#create service
+cat << EOF | kubectl apply -f -
+kind: Service
+apiVersion: v1
+metadata:
+  name: nginx-deployment
+spec:
+  selector:
+    app: nginx-deployment
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+EOF
+kubectl get svc nginx-deployment
+
+
+#robots shop
+git clone https://github.com/linuxacademy/robot-shop.git
+kubectl create namespace robot-shop
+kubectl -n robot-shop create -f ~/robot-shop/K8s/descriptors/
+kubectl get pods -n robot-shop -w
+http://$kube_server_public_ip:30080
+
+############Install k8 from certified course
+##On all nodes, set up containerd. You will need to load some kernel modules and modify some system settings as part of this process.
+
+cat <<EOF | sudo tee /etc/modules-load.d/containerd.conf
+overlay
+br_netfilter
+EOF
+
+sudo modprobe overlay
+
+sudo modprobe br_netfilter
+
+cat <<EOF | sudo tee /etc/sysctl.d/99-kubernetes-cri.conf
+net.bridge.bridge-nf-call-iptables  = 1
+net.ipv4.ip_forward                 = 1
+net.bridge.bridge-nf-call-ip6tables = 1
+EOF
+
+sudo sysctl --system
+##Install and configure containerd.
+
+sudo apt-get update && sudo apt-get install -y containerd
+
+sudo mkdir -p /etc/containerd
+
+sudo containerd config default | sudo tee /etc/containerd/config.toml
+
+sudo systemctl restart containerd
+On all nodes, disable swap.
+
+sudo swapoff -a
+
+sudo sed -i '/ swap / s/^\(.*\)$/#\1/g' /etc/fstab
+##On all nodes, install kubeadm, kubelet, and kubectl.
+
+sudo apt-get update && sudo apt-get install -y apt-transport-https curl
+
+curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+
+cat <<EOF | sudo tee /etc/apt/sources.list.d/kubernetes.list
+deb https://apt.kubernetes.io/ kubernetes-xenial main
+EOF
+
+sudo apt-get update
+
+sudo apt-get install -y kubelet=1.20.1-00 kubeadm=1.20.1-00 kubectl=1.20.1-00
+
+sudo apt-mark hold kubelet kubeadm kubectl
+##On the control plane node only, initialize the cluster and set up kubectl access.
+
+sudo kubeadm init --pod-network-cidr 192.168.0.0/16
+
+mkdir -p $HOME/.kube
+
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+
+sudo chown $(id -u):$(id -g) $HOME/.kube/config
+##Verify the cluster is working.
+
+kubectl version
+##Install the Calico network add-on.
+
+kubectl apply -f https://docs.projectcalico.org/manifests/calico.yaml
+##Check the calico-related kube-system Pods to verify that everything is working so far (they may take a few moments to fully start up).
+
+kubectl get pods -n kube-system
+##Get the join command (this command is also printed during kubeadm init. Feel free to simply copy it from there).
+
+kubeadm token create --print-join-command
+##Copy the join command from the control plane node. Run it on each worker node as root (i.e. with sudo).
+
+sudo kubeadm join ...
+##On the control plane node, verify all nodes in your cluster are ready. Note that it may take a few moments for all of the nodes to enter the READY state.
+
+kubectl get nodes
+######################
+
+#Upgrade kubeadm at master
+sudo apt-get update && \
+sudo apt-get install -y --allow-change-held-packages kubeadm=1.20.2-00
+kubectl drain MASTERNODENAME --ignore-daemonsets
+sudo kubeadm upgrade plan v1.20.2
+sudo kubeadm upgrade apply v1.20.2
+sudo apt-get update && \
+sudo apt-get install -y --allow-change-held-packages kubelet=1.20.2-00 kubectl=1.20.2-00
+sudo systemctl daemon-reload
+sudo systemctl restart kubelet
+kubectl uncordon MASTERNODENAME
+kubectl get nodes
+kubectl drain WORKNODENAME --ignore-daemonsets --force
+#worker
+sudo apt-get update && \
+sudo apt-get install -y --allow-change-held-packages kubeadm=1.20.2-00
+kubeadm version
+sudo kubeadm upgrade node
+sudo apt-get update && \
+sudo apt-get install -y --allow-change-held-packages kubelet=1.20.2-00 kubectl=1.20.2-00
+sudo systemctl daemon-reload
+sudo systemctl restart kubelet
+#master
+kubectl uncordon WORKNODENAME
+
+#создаст ямл файл шаблон для деплоя
+kubectl create deployment my-deploy --image=nginx --dry-run -o yaml > deploy.yml (Do a dry run to get some sample yaml without creating the object.)
+kubectl create -f deploy.yml
+
+####roles LAB
+Create a Role for the dev User
+Test access by attempting to list pods as the dev user:
+
+kubectl get pods -n beebox-mobile --kubeconfig dev-k8s-config
+We'll get an error message.
+
+Create a role spec file:
+
+vi pod-reader-role.yml
+Add the following to the file:
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  namespace: beebox-mobile
+  name: pod-reader
+rules:
+- apiGroups: [""]
+  resources: ["pods", "pods/log"]
+  verbs: ["get", "watch", "list"]
+Save and exit the file by pressing Escape followed by :wq.
+
+Create the role:
+
+kubectl apply -f pod-reader-role.yml
+Bind the Role to the dev User and Verify Your Setup Works
+Create the RoleBinding spec file:
+
+vi pod-reader-rolebinding.yml
+Add the following to the file:
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: pod-reader
+  namespace: beebox-mobile
+subjects:
+- kind: User
+  name: dev
+  apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: Role
+  name: pod-reader
+  apiGroup: rbac.authorization.k8s.io
+Save and exit the file by pressing Escape followed by :wq.
+
+Create the RoleBinding:
+
+kubectl apply -f pod-reader-rolebinding.yml
+Test access again to verify you can successfully list pods:
+
+kubectl get pods -n beebox-mobile --kubeconfig dev-k8s-config
+This time, we should see a list of pods (there's just one).
+
+Verify the dev user can read pod logs:
+
+kubectl logs beebox-auth -n beebox-mobile --kubeconfig dev-k8s-config
+We'll get an Auth processing... message.
+
+Verify the dev user cannot make changes by attempting to delete a pod:
+
+kubectl delete pod beebox-auth -n beebox-mobile --kubeconfig dev-k8s-config
+We'll get an error, which is what we want.
+
+###Discovering Pod Resource Usage with Kubernetes Metrics
+kubectl apply -f https://raw.githubusercontent.com/linuxacademy/content-cka-resources/master/metrics-server-components.yaml
+kubectl get --raw /apis/metrics.k8s.io/
+kubectl top pod -n beebox-mobile --sort-by cpu --selector app=auth
+echo auth-proc > /home/cloud_user/cpu-pod-name.txt
+
+###multicontainer pod that uses shared storage.
+vi sidecar-pod.yml
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: sidecar-pod
+spec:
+  containers:
+  - name: busybox1
+    image: busybox
+    command: ['sh', '-c', 'while true; do echo logs data > /output/output.log; sleep 5; done']
+    volumeMounts:
+    - name: sharedvol
+      mountPath: /output
+  - name: sidecar
+    image: busybox
+    command: ['sh', '-c', 'tail -f /input/output.log']
+    volumeMounts:
+    - name: sharedvol
+      mountPath: /input
+  volumes:
+  - name: sharedvol
+    emptyDir: {}
+
+kubectl create -f sidecar-pod.yml
+kubectl logs sidecar-pod -c sidecar
+kubectl get pod sidecar-pod
+
+##Passing Configuration Data to a Kubernetes Container
+htpasswd -c .htpasswd user //Create a password you can easily remember (we'll need it again later)
+kubectl create secret generic nginx-htpasswd --from-file .htpasswd
+rm .htpasswd
+vi pod.yml
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx
+spec:
+  containers:
+  - name: nginx
+    image: nginx:1.19.1
+    ports:
+    - containerPort: 80
+    volumeMounts:
+    - name: config-volume
+      mountPath: /etc/nginx
+    - name: htpasswd-volume
+      mountPath: /etc/nginx/conf
+  volumes:
+  - name: config-volume
+    configMap:
+      name: nginx-config
+  - name: htpasswd-volume
+    secret:
+      secretName: nginx-htpasswd
+	  
+kubectl get cm
+kubectl describe cm nginx-config
+kubectl apply -f pod.yml
+kubectl get pods -o wide
+kubectl exec busybox -- curl <NGINX_POD_IP>   //401 Authorization Required
+kubectl exec busybox -- curl -u user:<PASSWORD> <NGINX_POD_IP>
+
+
+####Building Self-Healing Containers in Kubernetes
+Introduction
+Kubernetes offers several features that can be used together to create self-healing applications in a variety of scenarios. In this lab, you will be able to practice your skills at using features such as probes and restart policies to create a container application that is automatically healed when it stops working.
+
+Solution
+Log in to the provided lab server using the credentials provided:
+
+ssh cloud_user@<PUBLIC_IP_ADDRESS>
+Set a Restart Policy to Restart the Container When It Is Down
+Find the pod that needs to be modified:
+
+kubectl get pods -o wide
+Take note of the beebox-shipping-data pod's IP address.
+
+Use the busybox pod to make a request to the pod to see if it is working:
+
+kubectl exec busybox -- curl <beebox-shipping-data_ IP>:8080
+We will likely get an error message.
+
+Get the pod's YAML descriptor:
+
+  kubectl get pod beebox-shipping-data -o yaml > beebox-shipping-data.yml
+Open the file:
+
+vi beebox-shipping-data.yml
+Set the restartPolicy to Always:
+
+spec:
+  ...
+  restartPolicy: Always
+  ...
+Create a Liveness Probe to Detect When the Application Has Crashed
+Add a liveness probe:
+
+spec:
+  containers:
+  - ...
+    name: shipping-data
+    livenessProbe:
+      httpGet:
+        path: /
+        port: 8080
+      initialDelaySeconds: 5
+      periodSeconds: 5
+    ...
+Save and exit the file by pressing Escape followed by :wq.
+
+Delete the pod:
+
+kubectl delete pod beebox-shipping-data
+Re-create the pod to apply the changes:
+
+kubectl apply -f beebox-shipping-data.yml
+Check the pod status
+
+kubectl get pods -o wide
+If you wait a minute or so and check again, you should see the pod is being restarted whenever the application crashes.
+
+Check the http response from the pod again (it will have a new IP address since we re-created it):
+
+kubectl exec busybox -- curl <beebox-shipping-data_IP>:8080
+If you wish, you can explore and see what happens as the application crashes and the pod is restarted automatically.
+###########################
+
+#######daemonsets are a great way to ensure a pod replica runs dynamically on each node. They even automatically handle the creation and removal of such pods when nodes join or leave the cluster.
+vi daemonset.yml
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: beebox-cleanup
+spec:
+  selector:
+    matchLabels:
+      app: beebox-cleanup
+  template:
+    metadata:
+      labels:
+        app: beebox-cleanup
+    spec:
+      containers:
+      - name: busybox
+        image: busybox:1.27
+        command: ['sh', '-c', 'while true; do rm -rf /beebox-temp/*; sleep 60; done']
+        volumeMounts:
+        - name: beebox-tmp
+          mountPath: /beebox-temp
+      volumes:
+      - name: beebox-tmp
+        hostPath:
+          path: /etc/beebox/tmp
+		  
+kubectl apply -f daemonset.yml
+kubectl get pods -o wide
+
+##network pods
+Create a new namespace.
+
+kubectl create namespace np-test
+Add a label to the Namespace.
+
+kubectl label namespace np-test team=np-test
+Create a web server Pod.
+
+vi np-nginx.yml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: np-nginx
+  namespace: np-test
+  labels:
+    app: nginx
+spec:
+  containers:
+  - name: nginx
+    image: nginx
+kubectl create -f np-nginx.yml
+Create a client Pod.
+
+vi np-busybox.yml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: np-busybox
+  namespace: np-test
+  labels:
+    app: client
+spec:
+  containers:
+  - name: busybox
+    image: radial/busyboxplus:curl
+    command: ['sh', '-c', 'while true; do sleep 5; done']
+kubectl create -f np-busybox.yml
+Get the IP address of the nginx Pod and save it to an environment variable.
+
+kubectl get pods -n np-test -o wide
+
+NGINX_IP=<np-nginx Pod IP>
+Attempt to access the nginx Pod from the client Pod. This should succeed since no NetworkPolicies select the client Pod.
+
+kubectl exec -n np-test np-busybox -- curl $NGINX_IP
+Create a NetworkPolicy that selects the Nginx Pod.
+
+vi my-networkpolicy.yml
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: my-networkpolicy
+  namespace: np-test
+spec:
+  podSelector:
+    matchLabels:
+      app: nginx
+  policyTypes:
+  - Ingress
+  - Egress
+kubectl create -f my-networkpolicy.yml
+This NetworkPolicy will block all traffic to and from the Nginx Pod. Attempt to communicate with the Pod again. It should fail this time.
+
+kubectl exec -n np-test np-busybox -- curl $NGINX_IP
+Modify the NetworkPolicy so that it allows incoming traffic on port 80 for all Pods in the np-test Namespace.
+
+kubectl edit networkpolicy -n np-test my-networkpolicy
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: my-networkpolicy
+  namespace: np-test
+spec:
+  podSelector:
+    matchLabels:
+      app: nginx
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          team: np-test
+    ports:
+    - port: 80
+      protocol: TCP
+Attempt to communicate with the Pod again. This time, it should work!
+
+kubectl exec -n np-test np-busybox -- curl $NGINX_IP
+#############
+
+#Troubleshooting
+sudo journalctl -u kubelet
+sudo journalctl -u docker
+kubectl logs podname -c containername
+kubectl logs -n kube-system (logs for the Kubernetes API Server)
+cat ~/.kube/config
+
+##################################################################################
+##################################################################################
+
+Canary Deployments with Kubernetes and Jenkins
+Introduction
+In this lab, we'll be setting up a train-schedule application. However, some recent deployments introduced bugs that did not become visible until after the changes were in the hands of real users. To mitigate these kinds of issues, we'll implement a canary deployment as part of the larger deployment pipeline.
+
+The application runs on Kubernetes cluster, and we'll use a Jenkins pipeline to perform CI and deployments. We will need to add logic to this existing pipeline in order to implement the canary deployment.
+
+We will need to create a fork of the sample course code here: https://github.com/linuxacademy/cicd-pipeline-train-schedule-canary
+
+Solution
+Create a free GitHub account, or log in to your GitHub account.
+
+Create a free DockerHub account, or log in to your account.
+
+We will also need to log in to all three of our servers using ssh and the provided credentials:
+
+ ssh cloud_user@<PUBLIC_IP>
+Set up the project and Jenkins
+To do this, you will need to perform the following steps:
+
+First, we need to go to this code repo: https://github.com/linuxacademy/cicd-pipeline-train-schedule-canary.
+
+Click the Fork button on this page.
+
+After creating your personal fork, select the Jenkinsfile.
+Click the Edit button for our file, and change the user name willbla to your personal Docker Hub username.
+Get Into our Jenkins Server
+In your web browser, enter the public IP provided for our Jenkins server, followed by :8080.
+
+Next, copy the file location string that appears.
+
+Open our command line for the Jenkins Server.
+Enter the following followed by the file location we copied from the Jenkins webpage:
+ sudo cat <PROVIDED_FILE_LOCATION>
+Copy the password string that appears.
+Paste the password string in the password field for Jenkins on our web page.
+Fill out the Create First Admin User page, and write down the credentials that you use to create it.
+Click Save and Continue.
+Select Start using Jenkins.
+Set up our Jenkins Credentials
+Perform the following in our web browser:
+
+Select Credentials from the menu.
+
+From the single credential present, click on global, then Add Credentials.
+
+Enter your personal GitHub user name in the Username section.
+Go to our GitHub browser and select your account, then from the dropdown, choose Settings.
+Next, choose Developer settings followed by Personal access tokens.
+Select Generate new token and do the following:
+Set the Token description of jenkins.
+Select the checkbox for admin:repo_hook.
+Click Generate token.
+Copy the token, and back in Jenkins, paste the token into the Password field.
+Set the ID to github_key and the Description to GitHub Key.
+Click Ok.
+Add Docker Hub Credentials
+Click Add Credentials.
+
+Provide your Docker Hub username and password in the corresponding fields.
+
+Set the ID to docker_hub_login and the Description to Docker Hub.
+Click OK.
+Add Kubernetes Credentials
+Click Add Credentials.
+
+Set the Kind to Kubernetes configuration (kubeconfig)
+
+Set the ID to kubeconfig and the description to Kubeconfig.
+Click into our Kubernetes command line.
+Run the following:
+ cat ~/.kube/config
+Copy the contents of the file that appears.
+Back in our Jenkins browser, paste what was copied into the Content section.
+Click OK*
+Set Up the project
+To set up the project, follow these steps:
+
+Go back to the main page by selecting the Jenkins icon at the top left of the website.
+
+Click New Item.
+
+Give the item the name train-schedule.
+Select Multibranch Pipeline.
+Under Branch Sources, change the Add source to GitHub.
+Set up the page as follows:
+Credentials: Option that ends in (GitHub Key)
+Owner: Your GitHub user Username
+Repository: cicd-pipeline-train-schedule-canary
+Select Save.
+Review the Builds
+Complete the following to review what we've done up to this point:
+
+Should an item called Build Queue appear above your Build Executor Status, select the cancel button for it (the red box with an X in it).
+
+Click on our Master build and wait for it to process.
+
+Once the master build gets to the DeployToProduction stage, hover over the DeployToProduction, and select Proceed.
+Click on our Kubernetes server, and enter the following to review our deployment:
+ kubectl get pods -w
+To review our application, from our lab's credentials page, copy the Kubernetes' Public IP and paste it into a new browser window followed by :8080.
+Add a Canary Stage to the Pipeline
+To complete this, you will need to do the following:
+
+Go back to GitHub and go to the fork that we made.
+
+Open the file example-solution and copy the code.
+
+Go back to the fork and click Create new file.
+Name the file train-schedule-kube-canary.yaml.
+Paste in the code.
+Click Commit new file.
+Select the Jenkinsfile.
+Add a new stage after the Push Docker Image stage and before DeployToProduction:
+ }
+ stage('CanaryDeploy') {
+   when {
+     branch 'master'
+   }
+   environment {
+     CANARY_REPLICAS = 1
+   }
+   steps {
+     kubernetesDeploy(
+       kubeconfigID: 'kubeconfig',
+       configs: 'train-schdeule-kube-canary.yml',
+       enableConfigSubstitution: true
+       )
+   }
+ }
+Modify the DeployToProduction section but adding the following between the when { and steps { section:
+ }
+ environment {
+   CANARY_REPLICAS = 0
+ }
+Select Commit changes
+Run a Successful Deployment
+Run our set up to make sure everything is running correctly:
+
+Go to our Kubernetes server and review the following:
+
+ kubectl get pods -w
+Back on Jenkins, click Build Now to build our updated information.
+
+Back on our Kubernetes node, we see our new pod information appears with our canary section.
+Check on our website that everything is working by putting in the Public IP address for our Kubernetes with port :8081 at the end.
+Once we know the site is working, go back to Jenkins, hover over DeployToProduction, and click Proceed.
+On our Kubernetes server, we see the new node running.
+Enter Ctrl + C to exit the node.
+Run kibectl get pods and note that everything is running.
+Conclusion
+Congratulations! You've completed the lab!
+
+############################Kubernetes + Jenkins LAB ######################
+###########################################################################
+Deploying to Kubernetes with Jenkins Pipelines
+Fork the GitHub Repository
+Open the following link in a new tab in your browser:
+
+https://github.com/linuxacademy/cicd-pipeline-train-schedule-kubernetes
+Click Fork in the top-right of the page.
+
+On the hands-on lab page, locate the Jenkins Server Public IP and copy it to your clipboard. Open a new tab in your browser and paste the IP address, followed by the port number 8080:
+
+<JENKINS_SERVER_PUBLIC_IP>;:8080
+Using this same IP address, open a terminal window to connect to the server using SSH:
+
+ssh cloud_user@<JENKINS_SERVER_PUBLIC_IP>;
+We need to show the password for the admin user to log in to our Jenkins web interface:
+
+sudo cat /var/lib/jenkins/secrets/initialAdminPassword
+Copy the string that is output and paste it into the Administrator password field in your browser. Click Continue.
+
+For the Create First Admin User form, provide the following information:
+
+Username: jenkins
+Password: random
+Confirm password: random
+Full name: jenkins
+Email address: noreply@linuxacademy.com
+Click Save and continue. Next, click Start using Jenkins.
+
+Add Docker Hub Credentials in Jenkins
+Click Credentials in the menu on the left of the page and then click global. Click Add Credentials in the menu on the left of the page. Provide the following information:
+
+Note: You will need a DockerHub account for this step.
+
+Username: Provide your DockerHub username
+Password: Provide your DuckerHub password
+ID: docker_hub_login
+Description: Docker Hub Login
+Click OK.
+
+Click Add Credentials in the menu on the left of the page.
+
+Add GitHub Credentials in Jenkins
+We will use a GitHub API token for the next step. Navigate to the GitHub tab in your browser. Click your profile picture in the top right of the page, click Settings, click Developer settings, click Personal access tokens, and finally click Generate new token.
+
+Name this token "jenkins" and be sure to click the checkbox next to admin:repo_hook. Click Generate token at the bottom of the page. Copy the token to your clipboard.
+
+Back in the Jenkins tab in your browser, add your GitHub information as follows:
+
+Username: Provide your GitHub username
+Password: Paste the API token from your clipboard.
+ID: github_key
+Description: GitHub Key
+Click OK.
+
+Add the Kubeconfig from the Kubernetes master as a credential in Jenkins
+We will need to view the contents of our Kubeconfig for this step. Log in to the Kubernetes master node by navigating to the hands-on lab page, copying the Kubernetes Master Public IP, and using the credentials for that instance to log in via SSH:
+
+ssh cloud_user@<KUBERNETES_MASTER_PUBLIC_IP>;
+Next, display the contents of our Kubeconfig:
+
+cat ~/.kube/config
+Copy the output of this file to your clipboard. We will need to paste this into Jenkins, so navigate back to the Jenkins tab in your browser.
+
+Click Add Credentials in the menu on the left of the page.
+
+Add credentials with the following information:
+
+Kind: Kubernetes configuration (kubeconfig)
+ID: kubeconfig
+Description: Kubeconfig
+Kubeconfig: Enter directly
+Content: Paste the contents of ~/.kube/config
+Click OK.
+
+Create a Jenkins project called train-schedule and successfully run the build from your GitHub fork
+Navigate to the Jenkins home page and click New Item in the menu on the left of the page.
+
+The name of our project will be "train-schedule" and it will be a Multibranch Pipeline.
+
+Click OK.
+
+Under Branch Sources, click Add source and then select GitHub. For the new source, provide the following information:
+
+Credentials: Select the GitHub Key option
+Repository HTTPS URL: Select the cicd-pipeline-train-schedule-kubernetes fork (make sure you add the HTTP URL, not SSH)
+Click Save.
+
+Click train-schedule in the menu at the top of the page. Click master to display the builds for the master branch.
+
+Note: that your docker image will not deploy to your DockerHub account yet. The Jenkinsfile needs a small change, which is covered in the next step.
+
+Successfully deploy the train-schedule app to the Kubernetes cluster via the Jenkins pipeline
+Create a Kubernetes template file defining a Service and Deployment for the app
+Back in the GitHub tab in your browser, click Create new file. Name this file "train-schedule-kube.yml". Insert the following YAML as the contents of the new file:
+
+kind: Service
+apiVersion: v1
+metadata:
+  name: train-schedule-service
+spec:
+  type: NodePort
+  selector:
+    app: train-schedule
+  ports:
+  - protocol: TCP
+    port: 8080
+    nodePort: 8080
+
+---
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: train-schedule-deployment
+  labels:
+    app: train-schedule
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: train-schedule
+  template:
+    metadata:
+      labels:
+        app: train-schedule
+    spec:
+      containers:
+      - name: train-schedule
+        image: $DOCKER_IMAGE_NAME:$BUILD_NUMBER
+        ports:
+        - containerPort: 8080
+Click Commit new file at the bottom of the page.
+
+Add a stage to the Jenkinsfile to perform the deployment to the Kubernetes cluster
+Click Jenkinsfile to configure this file. Click the Edit icon in the top-right of this window.
+
+At the top of this file, be sure to change the following line to use your Docker Hub username instead of the instructor's:
+
+DOCKER_IMAGE_NAME = "willbla/train-schedule"
+At the bottom of this file, replace the DeployToProduction section with the following:
+
+        stage('DeployToProduction') {
+            when {
+                branch 'master'
+            }
+            steps {
+                input 'Deploy to Production?'
+                milestone(1)
+                kubernetesDeploy(
+                    kubeconfigId: 'kubeconfig',
+                    configs: 'train-schedule-kube.yml',
+                    enableConfigSubstitution: true
+                )
+            }
+        }
+Click Commit changes at the bottom of the page.
+
+Run the build and successfully deploy the app to the cluster
+Back in the Jenkins tab in your browser, navigate to the train-schedule app and click master to show the master branch.
+
+Click Build Now in the menu on the left of the page.
+
+When your deployment reaches the DeployToProduction stage, be sure to hover over the blue box and click Proceed to approve the push to production.
+
+Verify everything is working by accessing the app in your browser
+On the hands-on lab page, copy the Kubernetes Node Public IP, open a new tab in your browser, and navigate to that IP address, using port 8080:
+
+<KUBERNETES_NODE_PUBLIC_IP>:8080
+The application page should load and you should see the text "Find your train!".
+
+
+##############Jenkins+docker+kubernetes pipeline  LAB ######################################
+############################################################################################
+Implementing Fully-Automated Deployment in a CD Pipeline
+Introduction
+Many companies that practice continuous deployment use a hands-free, fully-automated deployment model. This allows them to ship code to production with various automated tests and sanity checks built into the process, bypassing the need for human intervention. In this lesson, you will implement a basic sanity check and see a simple fully-automated deployment pipeline in action. This will give you a hands-on introduction to the concept of fully-automated deployments.
+
+On the hands-on lab page, locate the Jenkins Server Public IP and copy it to your clipboard. Open a new tab in your browser and paste the IP address, followed by the port number 8080:
+
+<JENKINS_SERVER_PUBLIC_IP>;:8080
+Using this same IP address, open a terminal window to connect to the server using SSH:
+
+ssh cloud_user@<JENKINS_SERVER_PUBLIC_IP>;
+We need to show the password for the admin user to log in to our Jenkins web interface:
+
+sudo cat /var/lib/jenkins/secrets/initialAdminPassword
+Copy the string that is output and paste it into the Administrator password field in your browser. Click Continue.
+
+For the Create First Admin User form, provide the following information:
+
+Username: jenkins
+Password: random
+Confirm password: random
+Full name: jenkins
+Email address: noreply@linuxacademy.com
+Click Save and continue. Next, click Start using Jenkins.
+
+Prepare the Jenkins Environment and Verify Your Configuration with an Initial Deploy
+Add GitHub Credentials in Jenkins
+We will use a GitHub API token for the next step. Navigate to the GitHub tab in your browser. Click your profile picture in the top right of the page, click Settings, click Developer settings, click Personal access tokens, and finally click Generate new token.
+
+Name this token "jenkins" and be sure to click the checkbox next to admin:repo_hook. Click Generate token at the bottom of the page. Copy the token to your clipboard.
+
+Back in the Jenkins tab in your browser, click Credentials in the menu on the left of the page and then click global. Click Add Credentials in the menu on the left of the page. Provide the following information:
+
+Username: Provide your GitHub username
+Password: Paste the API token from your clipboard.
+ID: github_key
+Description: GitHub Key
+Click OK.
+
+Click Add Credentials in the menu on the left of the page.
+
+Add Docker Hub Credentials in Jenkins
+Note: You will need a DockerHub account for this step.
+
+Username: Provide your DockerHub username
+Password: Provide your DuckerHub password
+ID: docker_hub_login
+Description: Docker Hub Login
+Click OK.
+
+Add the Kubeconfig from the Kubernetes master as a credential in Jenkins
+We will need to view the contents of our Kubeconfig for this step. Log in to the Kubernetes master node by navigating to the hands-on lab page, copy the Kubernetes Master Public IP, and use the credentials for that instance to log in via SSH:
+
+ssh cloud_user@<KUBERNETES_MASTER_PUBLIC_IP>;
+Next, display the contents of our Kubeconfig:
+
+cat ~/.kube/config
+Copy the output of this file to your clipboard. We will need to paste this into Jenkins, so navigate back to the Jenkins tab in your browser.
+
+Click Add Credentials in the menu on the left of the page.
+
+Add credentials with the following information:
+
+Kind: Kubernetes configuration (kubeconfig)
+ID: kubeconfig
+Description: Kubeconfig
+Kubeconfig: Enter directly
+Content: Paste the contents of ~/.kube/config
+Click OK.
+
+Configure Environment Variables
+On the main page of Jenkins, click Manage Jenkins. Click Configure System.
+
+In the Global Properties section, click the checkbox next to Environment variables. Click Add.
+
+Name: KUBE_MASTER_IP
+Value:
+Click Apply.
+
+In the GitHub section, click Add GitHub Server and then click GitHub Server.
+
+Name: GitHub
+Credentials: Click Add and then click Jenkins
+Kind: Secret text
+Secret: Paste the GitHub API token from the earlier step
+ID: github_secret
+Description: GitHub Secret
+Click Add. Click the dropdown next to Credentials and select the GitHub Secret we just added. Click Save.
+
+Fork the GitHub Repository
+Open the following link in a new tab in your browser:
+
+https://github.com/linuxacademy/cicd-pipeline-train-schedule-autodeploy
+Click Fork in the top-right of the page.
+
+Click Jenkinsfile to open the file, then click the Edit icon in the top-right of the window.
+
+Change the DOCKER_IMAGE_NAME at the top of the Jenkinsfile to use your Docker Hub username instead of willbla.
+Click Commit Changes.
+Set Up Project
+Back in the Jenkins tab in our browser, click New Item. Use a Name of "train-schedule" and select Multibranch Pipeline as the type. Click OK.
+
+In the Branch Sources section, click Add source, and then click GitHub.
+
+Credentials: Select the GitHub Key
+Owner: Enter your GitHub username
+Repository: Select cicd-pipeline-train-schedule-autodeploy
+In the Behaviors section, delete both Discover pull requests options by clicking the red X in the top right of each of their respective sections.
+Click Save.
+
+Click train-schedule in the top-left of the page and then click on master.
+
+The initial build will take some time. Wait a few moments until your build gets to the DeployToProduction stage. When it is ready, hover your mouse over the blue box and click Proceed.
+
+On the hands-on lab page, copy the Kubernetes Master Public IP and navigate to it in a new tab in your browser, using port 8080.
+
+<KUBERNETES_MASTER_PUBLIC_IP>;:8080
+The train-schedule app will load.
+
+Add a Smoke Test with Automated Deployment and Remove the Human Approval Step from the Pipeline, Then Deploy
+In the GitHub tab in your browser, click on the Jenkinsfile to open it. Click the Edit icon in the top-right of the page to edit this file.
+
+Remove the human input step from the deployment and add a smoke test before the production deployment. Your Jenkinsfile should look like this:
+
+pipeline {
+    agent any
+    environment {
+        //be sure to replace "willbla" with your own Docker Hub username
+        DOCKER_IMAGE_NAME = "willbla/train-schedule"
+        CANARY_REPLICAS = 0
+    }
+    stages {
+        stage('Build') {
+            steps {
+                echo 'Running build automation'
+                sh './gradlew build --no-daemon'
+                archiveArtifacts artifacts: 'dist/trainSchedule.zip'
+            }
+        }
+        stage('Build Docker Image') {
+            when {
+                branch 'master'
+            }
+            steps {
+                script {
+                    app = docker.build(DOCKER_IMAGE_NAME)
+                    app.inside {
+                        sh 'echo Hello, World!'
+                    }
+                }
+            }
+        }
+        stage('Push Docker Image') {
+            when {
+                branch 'master'
+            }
+            steps {
+                script {
+                    docker.withRegistry('https://registry.hub.docker.com', 'docker_hub_login') {
+                        app.push("${env.BUILD_NUMBER}")
+                        app.push("latest")
+                    }
+                }
+            }
+        }
+        stage('CanaryDeploy') {
+            when {
+                branch 'master'
+            }
+            environment { 
+                CANARY_REPLICAS = 1
+            }
+            steps {
+                kubernetesDeploy(
+                    kubeconfigId: 'kubeconfig',
+                    configs: 'train-schedule-kube-canary.yml',
+                    enableConfigSubstitution: true
+                )
+            }
+        }
+        stage('SmokeTest') {
+            when {
+                branch 'master'
+            }
+            steps {
+                script {
+                    sleep (time: 5)
+                    def response = httpRequest (
+                        url: "http://$KUBE_MASTER_IP:8081/",
+                        timeout: 30
+                    )
+                    if (response.status != 200) {
+                        error("Smoke test against canary deployment failed.")
+                    }
+                }
+            }
+        }
+        stage('DeployToProduction') {
+            when {
+                branch 'master'
+            }
+            steps {
+                milestone(1)
+                kubernetesDeploy(
+                    kubeconfigId: 'kubeconfig',
+                    configs: 'train-schedule-kube.yml',
+                    enableConfigSubstitution: true
+                )
+            }
+        }
+    }
+    post {
+        cleanup {
+            kubernetesDeploy (
+                kubeconfigId: 'kubeconfig',
+                configs: 'train-schedule-kube-canary.yml',
+                enableConfigSubstitution: true
+            )
+        }
+    }
+}
+Click Commit Changes to save your changes to the Jenkins file. The deployment will start automatically and can be viewed in the Jenkins tab of your browser.
+
+Demonstrate the Pipeline in Action
+In the GitHub tab in your browser, navigate to the main page of your fork by clicking on cicd-pipeline-train-schedule-autodeploy at the top of the page.
+
+Click on branches to display the three branches of this repository. Click on New pull request for the new-code branch.
+
+Change the following fields on this page:
+
+base fork: Set this to your personal fork of the cicd-pipeline-train-schedule-autodeploy repo
+base: master
+The page will update and show the changes from the new-code branch to the master branch.
+
+Click Create pull request. When the page updates, click Merge pull request. Finally, click Confirm merge.
+
+Back in the Jenkins tab in your browser, a new build should spin up shortly.
+
+Navigate to the tab in your browser that displays the train-schedule application. Refresh this page to see the changes that were made.
+
+Conclusion
+Congratulations, you've completed this hands-on lab!
+
+######## RANCHER
+./rancher.exe login --token token-p7bq6:cgbbz68tklc9nmzkpgfwc8tkk92cp5wh6bhmtclhx8pj5cjj2256gv https://console.k8s.nonprod.aws.lmig.com/v3
+./rancher.exe kubectl get pods --namespace=ci-underwriting--development
+./rancher.exe kubectl config set-context --current --namespace=ci-underwriting--performance
+./rancher.exe kubectl get services --namespace=ci-underwriting--development
+./rancher.exe kubectl exec --namespace=ci-underwriting--development -it prop-lmpw-0 -- bash
+./rancher.exe kubectl get -o json pod prop-lmpw-0 --namespace=ci-underwriting--development
+./rancher.exe kubectl cp prop-lmpw-0:/was_logs/messages.log messages.log --namespace=ci-underwriting--development
+./rancher.exe kubectl cp -R prop-lmpw-deployment-7b6d578dd8-lpdw2:/was_logs/ was_logs --namespace=ci-underwriting--performance
+######################################################### AWS LABS ########################################
+###########################################################################################################
+Auditing Resource Compliance with AWS Config
+In this hands-on lab, we'll implement AWS Config rules and use Config for compliance auditing and remediation. We will configure compliance rules for evaluating EC2 instance type, if S3 versioning is enabled, EC2 instances in a VPC, and if CloudTrail is enabled. These rules will give you firsthand knowledge about how the AWS Config service works. We will then explore the configuration management aspect of Config.
+
+Solution
+Log in to the live AWS environment with the cloud_user credentials provided.
+
+Make sure you are using the N. Virginia (or us-east-1) AWS region throughout the lab.
+
+Enable Config in the Account
+Navigate to the Config service.
+Click Get started.
+On the Settings page, check Record all resources supported in this region.
+Choose Create a bucket, and leave the default name.
+Do not check to create an SNS topic at this time.
+Select Create AWS Config service-linked role.
+Click Next.
+On the AWS Config rules page, click Skip.
+On the Review page, click Confirm.
+Configure Rules for Resources
+In the left-hand menu, click Rules.
+Click Add rule.
+Search for "cloudtrail".
+Select the cloudtrail-enabled card.
+Leave the default parameters, and click Save.
+Click Add rule.
+Search for "desired".
+Select the desired-instance-type card.
+In the Rule parameters section, enter a value of "t2.micro".
+Click Save.
+Click Add rule.
+Search for "ec2-instances".
+Select the ec2-instances-in-vpc card.
+In a new browser tab, navigate to VPC > Your VPCs.
+Copy the VPC ID of the listed VPC.
+Back in the Config browser tab, enter the VPC ID as the value under Rule parameters.
+Click Save.
+Click Add rule.
+Search for "s3-bucket".
+Select the s3-bucket-versioning-enabled card.
+Click Save.
+Configure the Non-Compliant Resources to Comply
+Open S3 in another browser tab.
+Select the bucket listed to open it.
+Go to the Properties tab.
+Select the Versioning card.
+Click to Enable versioning.
+Click Save.
+Navigate to CloudTrail.
+Click Create trail.
+Name the trail (e.g., "mytrail").
+Under Storage location, choose Create a new S3 bucket, and give it a unique name (e.g., "cloudtrail-" with a series of random numbers at the end).
+Click Create.
+Re-Evaluate the Non-Compliant Rules in Config
+Navigate back to the Config tab.
+On the Rules page, click the S3 bucket rule.
+Choose Re-evaluate.
+Back on the Rules page, wait for the S3 rule to become compliant. (It could take about 10 minutes.)
+Now, select the CloudTrail rule.
+Choose Re-evaluate.
+Back on the Rules page, wait for the CloudTrail rule to become compliant.
+Conclusion
+Congratulations on completing this hands-on lab!
+
+#############################################################################################################
+#############################################################################################################
+
+Troubleshooting Amazon EC2 Network Connectivity
+Introduction
+The goal of this hands-on lab is to fix the connectivity issue in the AWS environment so we can update the yum package installer (from the command line) on the provided EC2 instance (named "web server"). Here, we'll go step-by-step through the scenario and offer detailed instructions on how to solve the connectivity issue.
+
+Solution
+Log in to the live AWS environment using the credentials provided. Make sure you're in the N. Virginia (us-east-1) region throughout the lab.
+
+Fix SSH Ingress to Bastion Host
+The Issue
+SSH traffic is being denied by the security group associated with the bastion host.
+
+How to Fix the Issue
+Add an SSH (port 22) allow rule to the security group associated with the bastion host
+
+Locate the public IP address of the bastion host on the lab page and copy it. Alternately, in the AWS console, navigate to EC2 > Instances and copy it from there.
+Open a terminal session, and log in via SSH:
+
+ssh cloud_user@<PUBLIC IP ADDRESS>
+It doesn't seem to connect. Head back to the AWS console to look at the bastion host.
+
+Click the listed security group associated with the bastion host.
+In the Inbound rules tab, we'll see the only allow rule is port 80, which is for HTTP traffic and not SSH traffic.
+Click Edit.
+Delete the existing rule.
+Click Add Rule, and set the following values:
+Type: SSH
+Protocol: TCP
+Port Range: 22
+Source: Anywhere
+Click Save.
+Back in the terminal, we should see the prompt to continue connecting. Enter yes, and then enter the password for the instance (provided on the lab page). We've now successfully logged in to the bastion host.
+Now, we need to log in to the "web server" instance. Copy the private IP address from the lab credentials page (or in the AWS console). In the terminal, enter:
+
+ssh cloud_user@<PRIVATE IP ADDRESS>
+Enter yes at the prompt, and then enter the password provided on the lab page for the web server instance.
+
+Now, run the YUM package installer:
+
+sudo yum update
+Enter the password again.
+
+There seems to be a hangup. Why is the EC2 instance not able to connect to the open internet in order to successfully update the YUM package installer?
+
+Fix Egress from Web Server to Internet
+The Issue
+The NACL protecting the web server only allows return traffic to the public subnet, not the internet.
+
+How to Fix the Issue
+Add an outbound "All Traffic" allow rule to 0.0.0.0/0 to the NACL.
+
+In the AWS console, navigate to VPC > Network ACLs.
+Click the Private Network NACL listed.
+In the Outbound Rules tab, click Edit outbound rules.
+Change the Destination to 0.0.0.0/0.
+Click Save.
+Back in the terminal, run:
+
+sudo yum update
+It still won't connect.
+
+Fix Web Server Route to Internet
+The Issue
+The web server does not have a route to the NAT gateway.
+
+How to Fix the Issue
+Add a route to the NAT gateway on the route table associated with the private subnet the web server is located in.
+
+In the AWS console, navigate to the VPC > Route Tables.
+Select the Private route table, and click the Routes tab. We'll see there isn't a route to the NAT gateway.
+Click Edit routes.
+Click Add route, and set the following values:
+Destination: 0.0.0.0/0
+Target: Type "nat", and select the pre-populated NAT gateway listed in the dropdown
+Click Save routes.
+Back in the terminal, run:
+
+sudo yum update
+Note: If you get a lock message, kill -9 PID (replace PID with the process number), then run the yum command again.
+
+It should work this time.
+
+Conclusion
+Congratulations on completing this hands-on lab!
+
+###########################################################################
+###########################################################################
+
+Automating EBS Snapshot Creation with CloudWatch Events and SNS
+In this hands-on lab, we will be creating a CloudWatch Events rule to automate the creation of EBS snapshots and notify system admins.
+
+EBS snapshots are essential for any backup/disaster recovery plan. Automating the creation process allows for reliable backup planning. And by utilizing SNS in this process, we can inform an administrator when each snapshot creation job has begun.
+
+Log in to the AWS environment with the cloud_user credentials provided on the lab instructions page. Once you have logged in, make sure you are using us-east-1 (N. Virginia) as the selected region.
+
+Creating an SNS Topic and Subscription
+First, we'll create a new SNS topic and SNS email subscription to use with our CloudWatch event rule.
+
+Navigate to the SNS service in the AWS Console (either by entering "SNS" in the search bar or by locating it in the Services menu). Click Get started, then Create topic.
+
+Enter the following in the Create new topic menu:
+
+Topic name: EBSSnap
+Display name: EBSSnap
+Then, click Create topic.
+
+Next, click Create Subscription, and enter the following in the Create subscription menu:
+
+Topic ARN: (No change; this field will autopopulate)
+Protocol: Email
+Endpoint: YOUR_EMAIL_ADDRESS
+Then click Create subscription.
+
+We'll see a pending status for the new subscription. Check your email inbox, and click the subscription confirmation link in the email you just received. Refresh the screen in the AWS Console to see that the subscription is now confirmed.
+
+Creating a CloudWatch Event Rule to Automate EBS Snapshot Creation
+Now we'll create the CloudWatch event rule that will snapshot the specified EBS volume once per day and initiate an email via SNS.
+
+Navigate to EC2, and click Volumes in the sidebar. Select any volume and copy its volume ID (found in the Description tab) to your clipboard.
+
+Next, navigate to CloudWatch, and click Rules in the sidebar. Click Create rule. In the Event Source menu, select Schedule. For Fixed rate of, enter "1" and change the dropdown to Days.
+
+Under Targets, click Add target, and do the following:
+
+Change the default Lambda function in the dropdown to EC2 CreateSnapshot API call.
+For Volume ID, paste in the volume ID we just copied to the clipboard.
+Click Add target.
+Change the default Lambda function in the dropdown to SNS topic.
+For Topic, select our newly created SNS topic (EBSSnap) from the dropdown.
+Click Configure details.
+On the Configure rule details screen, type "EBSSnap" for Name. For State, the checkbox next to Enabled should be checked. Click Create rule.
+
+Now we need to confirm that our new CloudWatch event rule is working as expected by checking that a new EBS snapshot was created.
+
+Wait a few minutes, and then check your email for a message from SNS.
+
+Back in the AWS Console, navigate to EC2, and click Snapshots in the sidebar to make sure a new snapshot is listed.
+
+Conclusion
+Congratulations on completing this lab!
+
+#################################################################
+#################################################################
+
+Managing Data in S3 with Versioning and Lifecycle Rules
+Introduction
+In this hands-on lab, we'll start with enabling versioning in an S3 bucket, then we will configure the lifecycle rules to automatically transition objects to lower-cost storage classes, and finally, we will change the image files to reduced redundancy storage as the organization has means to recreate them if they are lost.
+
+Understanding and utilizing these S3 features are at the core of S3 data management. Common use cases include recovery from accidental deletions, and lifecycle policies allow for automated migration to lower cost storage classes when appropriate.
+
+Good luck, and enjoy the lab!
+
+Solution
+Log in to the AWS Management Console using the credentials provided on the lab instructions page. Make sure you're using the us-east-1 region.
+
+Enable Versioning on the Provided S3 Bucket
+Navigate to S3.
+Open the lab-provided S3 bucket.
+Click the Properties tab.
+Under Bucket Versioning click Edit, and Enable.
+Click Save changes.
+Assign a Lifecycle Rule to Objects in the Log Folder
+In the Management tab of the bucket, click Create lifecycle rule.
+Enter a name for the rule (e.g., "log-rule").
+For Prefix, enter "Logs".
+Under Lifecycle rule actions, select Transition current versions of objects between storage classes.
+Under Transition current versions of objects between storage classes, set the following values:
+Storage class transitions: Standard-IA
+Days after object creation: 90
+Click Create rule.
+Assign a Lifecycle Rule to Objects in the Images Folder
+Back in the Management tab, click Create lifecycle rule again.
+Enter a name for the rule (e.g., "image-rule").
+For the Prefix, enter "Images".
+Under Lifecycle rule actions, select Transition current versions of objects between storage classes.
+Under Transition current versions of objects between storage classes, set the following values:
+Storage class transitions: One Zone-IA
+Days after object creation: 30
+Click Create rule.
+Add a Lifecycle Rule to Move the Older Log File to Glacier after 180 Days
+Navigate back to S3 and open the bucket.
+Click the Logs/ folder.
+Open the file titled 2019.csv.
+In the top-right corner, click Object actions, and from the drop-down select Edit tags.
+Click Add tag, and set the following values:
+Key: Type
+Value: OldLogs
+Click Save changes.
+Navigate back to the bucket, and click the Management tab.
+Click Create lifecycle rule.
+Enter a name for the rule (e.g., "tagged-logs").
+Under Object tags, enter the following:
+Key: Type
+Value: OldLogs
+Under Lifecycle rule actions, select Transition current versions of objects between storage classes.
+Under Transition current versions of objects between storage classes, set the following values:
+Storage class transitions: Glacier
+Days after object creation: 180
+Note: You will be asked if you understand that the lifecycle rule will increase the one-time lifecycle request cost if it transitions small objects.
+
+Click Create rule.
+Conclusion
+Congratulations — you've completed this hands-on lab!
+
+##################################################################
+##################################################################
+
+Querying Data in S3 with Amazon Athena
+Introduction
+Welcome to this hands-on AWS lab for querying data in Amazon S3 with Amazon Athena. This lab allows you to practice analyzing data stored in S3 using SQL queries in Athena.
+
+Solution
+Begin by logging in to the AWS Management Console using the credentials provided on the hands-on lab page.
+
+Gather S3 Bucket's ARN for later use
+Navigate to the S3 service
+Check the box next to the bucket we've got in there
+In the overlay that slides in (which contains details about the bucket) click Copy Bucket ARN
+Create a Table from S3 Bucket Metadata
+Navigate to the Amazon Athena service:
+Click Get Started if this is our first trip into Athena, otherwise continue to #2
+First, add an S3 location for your queries by clicking on the 'Before you run your first query, you need to set up a query result location in Amazon S3.' link
+Paste in the S3 Bucket ARN we copied earlier, being sure to remove "arn:aws:s3:::" from the beginning of the data we paste in and including a trailling slash
+Once the S3 location is properly configured you will notice the Run query button has been made active.
+In the query editor paste the following query, then press Ctrl+Enter to run the query:
+CREATE database aws_service_logs
+Under Tables, select Create Table > from S3 bucket data.
+Step 1: Name and Location:
+Database: aws_service_logs
+Table: cf_access_optimized
+Location: s3://Name of the generated S3 bucket/ (including trailing slash)
+Paste in the S3 Bucket ARN we copied earlier, being sure to remove "arn:aws:s3:::" from the beginning of the data we paste in
+Step 2: Data Format
+Select Parquet
+Step 3: Columns
+
+Bulk add columns using this data:
+
+time timestamp, location string, bytes bigint, requestip string, method string, host string, uri string, status int, referrer string, useragent string, querystring string, cookie string, resulttype string, requestid string, hostheader string, requestprotocol string, requestbytes bigint, timetaken double, xforwardedfor string, sslprotocol string, sslcipher string, responseresulttype string, httpversion string
+Step 4: Partitions
+
+Column Name: year, Column Type: string
+Column Name: month, Column Type: string
+Column Name: day, Column Type: string
+Click Create table
+Click Run query on the generated SQL statement. Ensure the S3 bucket location in the query matches the one generated in your lab environment.
+Add Partition Metadata
+Open a new query tab
+Run the following query: MSCK REPAIR TABLE aws_service_logs.cf_access_optimized
+Verify the partitions were created with the following query:
+SELECT count(*) AS rowcount FROM aws_service_logs.cf_access_optimized
+You should see 207535 rows present in the table.
+To look at a bit of actual data from this table (just ten rows' worth) we can run this query:
+SELECT * FROM aws_service_logs.cf_access_optimized LIMIT 10
+Query the Total Bytes Served in a Date Range
+Add another query tab, then let's look at the timestamps on our newest and oldest data. Run these two queries:
+
+SELECT * FROM aws_service_logs.cf_access_optimized ORDER BY time DESC LIMIT 10
+SELECT * FROM aws_service_logs.cf_access_optimized ORDER BY time ASC LIMIT 10
+Our newest timestamp is from 2018-11-07, and the oldest is from 2018-11-02.
+
+Now let's look at a sum of the bytes column for data between 11-02 and 11-03:
+
+SELECT SUM(bytes) AS total_bytes
+FROM aws_service_logs.cf_access_optimized
+WHERE time BETWEEN TIMESTAMP '2018-11-02' AND TIMESTAMP '2018-11-03'
+Observe the value for total_bytes equals 87310409.
+
+Conclusion
+Congratulations — you've completed this hands-on lab!
+
+###################################################################
+###################################################################
+
+Performing a Backup and Restore Using AMI and EBS
+Introduction
+In this hands-on lab, we will perform a backup and restore using AMIs and EBS. This activity will explore several common backup and restore methods for the Amazon EC2 service.
+
+Solution
+Log in to the live AWS environment using the credentials provided. Make sure you're in the N. Virginia (us-east-1) region throughout the lab.
+
+Create an EBS Snapshot
+Navigate to EC2 > Instances.
+Check the box beside one of the "webserver-instance" instances.
+Click the Root device link in the Description section below, and then click the EBS ID link.
+On the Volumes page, make sure the listed volume is selected, and then click Actions and select Create Snapshot.
+Enter a description (e.g., "WordPressSnap").
+Click Create Snapshot.
+Create a New EBS Volume from a Snapshot
+Navigate to Snapshots.
+Check the box beside the snapshot you just created.
+Click Actions, and select Create Volume.
+Change the volume size to 10 GiB.
+Click Create Volume.
+Click Close.
+Select the newly created volume, and then click Actions and select Attach Volume.
+In the Instance dropdown, select the webserver-instance and click Attach.
+Create Two EC2 AMIs
+Method 1
+Navigate to Instances.
+Check the box beside one of the "webserver-instance" instances.
+Click Actions, then Image, and then Create Image.
+Add a name and description (e.g., both could be "AMI1").
+Click Create Image, and then Close.
+Choose AMIs from the left menu to see the image you created.
+Once the image is available, navigate to the instances page.
+Click Launch Instance.
+Choose My AMIs in the left column.
+Click Select.
+Leave t2.micro selected, and click Next: Configure Instance Details.
+On the Configure Instance Details page:
+Network: Leave default
+Subnet: AppLayer1private
+Auto-assign Public IP: Disable
+Click Next: Add Storage, then Next: Add Tags, and then Next: Configure Security Group.
+Click to Select an existing security group.
+Select the WebServerSecurityGroup one from the table.
+Click Review and Launch, and then Launch.
+In the key pair dialog, select Proceed without a key pair.
+Click Launch Instances, and then View Instances.
+Method 2
+Navigate to Snapshots.
+Check the box beside the snapshot you made earlier.
+Click Actions, and select Create Image.
+Enter a name and description (e.g., both could be "AMI2").
+Change Virtualization type to Hardware-assisted virtualization.
+Click Create, and then Close.
+Choose AMIs from the left menu to see the image you created.
+Conclusion
+Congratulations on completing this hands-on lab!
+
+#########################################################
+#########################################################
+
+Troubleshooting Elastic Load Balancing Connectivity in AWS
+Introduction
+In this hands-on lab, we're going to fix the connectivity issue in the AWS environment so we can view the Linux AMI/Apache test page of the provisioned EC2 instances via the ELB's DNS name.
+
+Solution
+Log in to the live AWS environment using the credentials provided. Make sure you're in the N. Virginia (us-east-1) region throughout the lab.
+
+Hint #1
+The Issue
+The ELB's security group does not allow HTTP traffic.
+
+How to Fix the Issue
+Add an allow rule for HTTP traffic (port 80) to the ELB's security group.
+
+Navigate to EC2 > Load Balancers.
+With the load balancer selected, scroll to the Security section in the Description section, and click the listed security group.
+With the security group selected, scroll to the Inbound section, and click Edit.
+Change the Type to HTTP, and click Save.
+Click Load Balancers in the left-hand menu.
+Copy the load balancer's DNS name in the Description section, and paste it into a new browser tab. The page won't be able to load.
+Hint #2
+The Issue
+EC2 instance health checks are not passing.
+
+How to Fix the Issue
+Change health check "ping port" on the ELB to port 80.
+
+Back in the AWS console, click the Instances tab on the load balancers page, where we'll see the instances associated with our load balancer are marked as OutOfService.
+In the Health check tab, click Edit Health Check.
+In the dialog, change Ping Port to 80, and click Save.
+Back in the Instances tab, we should see they're now listed as InService.
+Reload the load balancer DNS in the browser, which should now display the Linux AMI/Apache test page.
+Conclusion
+Congratulations on completing this hands-on lab!
+
+############################################################
+############################################################
+
+Restoring an Amazon RDS Instance Using Snapshots
+Introduction
+A critical part of database management is being able to recover your data after corruption or accidental deletion has occurred.
+
+In this hands-on lab, we'll use the point-in-time restore capability of RDS automated snapshots to restore a database and bring a site back up.
+
+Solution
+Please log in to the lab environment with the cloud_user credentials provided. Make sure you are using us-east-1 region throughout the lab.
+
+Make a note of the cloud_user password for connecting to the bastion instance.
+
+NOTE: This environment will take up to 15 minutes to create.
+
+Open the WordPress Application to Monitor It
+Navigate to EC2 > Load Balancers.
+With the load balancer selected, copy the DNS name listed below, and paste it into a new browser tab.
+Keep this tab open to monitor the application later.
+Create an RDS Snapshot
+In the AWS console, navigate to RDS.
+Click DB Instances, and select the running instance.
+NOTE: On the Connectivity & security tab, copy the endpoint listed and paste it into a text file, as we'll need it for the next step to use for the RDS endpoint name.
+
+Select Maintenance & backups > Take snapshot.
+Name the snapshot (e.g., "wordpress-YYYYMMDD").
+Log in to the Bastion Host and Delete Database Data
+Navigate to EC2 > Running Instances.
+With the bastion-host instance selected, copy the public IP listed in the Description section.
+Open a terminal session, and log in to the bastion host via SSH as cloud_user using the public IP:
+
+ssh cloud_user@<PUBLIC IP>
+Use the password provided on the lab page — it will be different than the one you used to log in to the AWS console.
+
+Install the MySQL command line:
+
+sudo yum install mysql
+Connect to MySQL (using the RDS endpoint you copied earlier):
+
+mysql --user=wpuser --password=Password1 --host=<RDS ENDPOINT NAME>
+At the MySQL prompt, switch to the WordPress database:
+
+use wordpressdb;
+Delete a critical table:
+
+drop table wp_posts;
+In the browser, refresh the WordPress site, which should result in an error page.
+Restore an RDS Database from a Snapshot
+In the RDS console, navigate to Snapshots.
+Note the snapshot creation time.
+Click Databases in the left-hand menu, and select wordpress-database.
+Click Actions, and select Restore to point in time.
+Select a Custom restore time, and enter the point in time you want to restore from (selecting today's date and a time after the snapshot creation time).
+Give it a DB instance identifier of wordpress-recovery.
+Set the Availability zone to us-east-1b.
+Click Launch DB Instance. It will take a few minutes for it to become available.
+Rename Database Instances
+Head back to the Databases dashboard, select wordpress-database, and click Modify.
+Change the DB instance identifier from wordpress-database to wordpress-corrupt.
+Click Continue.
+Select Apply Immediately, and click Modify DB Instance. It will take a minute for it to finish renaming.
+Now, select wordpress-recovery, and click Modify.
+Change the DB instance identifier from wordpress-recovery to wordpress-database.
+Under Security group, delete the default security group and select DatabaseSecurityGroup from the dropdown.
+Click Continue.
+Select Apply Immediately, and click Modify DB Instance.
+Refresh the WordPress website, and observe that the last known good configuration is present.
+Conclusion
+Congratulations on completing this hands-on lab!
+
+##########################################################
+##########################################################
+
+Deploying an Amazon RDS Multi-AZ and Read Replica
+Introduction
+Welcome to this live hands-on AWS lab, where we will be working with the Relational Database Service (RDS).
+
+This lab will provide you with hands-on experience with:
+
+Enabling Multi-AZ and Backups
+Creating a read replica
+Promoting a read replica
+Updating the RDS endpoint in Route53
+Solution
+Log in to the live AWS environment using the credentials provided. Make sure you're in the N. Virginia (us-east-1) region throughout the lab.
+
+Enable Multi-AZ Deployment
+Navigate to EC2 > Load Balancers.
+Copy the DNS name of the load balancer.
+Open a new browser tab, and enter the DNS name. We will use this web page to test failovers and promotions in this lab.
+Back in the AWS console, navigate to RDS > Databases.
+Click on our database instance.
+Click Modify.
+Under Multi-AZ deployment, click Yes.
+Change Backup Retention to 1 day, needed later for read replicas.
+Click Continue.
+Under Scheduling of modifications, select Apply immediately, and then click Modify DB Instance.
+Once the instance shows Multi-AZ is enabled (it could take about 10 minutes), select the database instance.
+Click Actions, and select Reboot.
+On the reboot page, select Reboot With Failover?, and click Reboot.
+Use the web page to monitor the outage (normally about 30 seconds).
+The Multi-AZ standby is now the primary.
+Create a Read Replica
+With the database instance still selected, click Actions, and select Create read replica.
+For Destination region, select US East (N. Virginia).
+Enter a name under DB instance identifier (e.g., "wordpress-rr").
+Leave the other defaults, and click Create read replica. It will take a few minutes for it to become available.
+Promote the Read Replica and Change the CNAME Records Set in Route 53 to the New Endpoint
+Once the read replica is available, check the circle next to it.
+Click Actions, and select Promote.
+Leave the defaults, and click Continue, and then click Promote Read Replica.
+Use the web page to monitor for downtime.
+Once the read replica is available, click to open it.
+In the Connectivity & security section, copy the endpoint under Endpoint & port.
+Open Route 53 in a new tab.
+Click Hosted zones, and select the sysopsdatabase hosted zone.
+Click Go to Record Sets.
+Click the CNAME row.
+Replace what's currently in the Value box with the endpoint you copied.
+Click Save Record Set.
+Monitor using the web page for downtime.
+Conclusion
+Congratulations on completing this hands-on lab!
+
+##########################################################
+##########################################################
+
+Deploying a Highly Available Web Application and a Bastion Host in AWS
+Introduction
+In this hands-on lab, we are going to build a highly available web application along with a highly available bastion host architecture.
+
+Solution
+Log in to the live AWS environment using the credentials provided. Make sure you're in the N. Virginia (us-east-1) region throughout the lab.
+
+Launch an RDS Database
+Create a Subnet Group for the Database
+Navigate to the RDS console.
+Click Subnet groups in the left-hand menu.
+Click Create DB Subnet Group.
+For the Subnet group details, set the following values:
+Name: sng1
+Description: sng1
+Under Add subnets, set the following values for the first subnet:
+Availability zone: us-east-1a
+Subnet: 10.99.21.0/24
+Click Add subnet.
+Now, set the following values for the second subnet:
+Availability zone: us-east-1b
+Subnet: 10.99.22.0/24
+Click Add subnet.
+Click Create.
+Restore the Database from a Public Snapshot
+Click Snapshots in the left-hand menu.
+In the filter box, paste in the following snapshot ARN:
+arn:aws:rds:us-east-1:892710030684:snapshot:sysops-certification-la-course
+Change the dropdown to All Public Snapshots.
+Check the box next to the snapshot, and in the Actions dropdown, select Restore Snapshot.
+Under Instance specifications, set the following values:
+DB Engine: MySQL Community Edition
+License Model: general-public-license
+DB Instance Class: db.t2.micro
+Under Settings, use the following:
+DB Instance identifier: wordpress-database
+Under Network & Security, the VPC and subnet group should auto-populate to what we need.
+Click Restore DB Instance. It will take about 10-15 minutes to complete.
+Create Security Groups
+Navigate to VPC > Security Groups.
+BastionSG
+Click Create security group, and set the following values:
+Security group name: BastionSG
+Description: Bastion security group
+VPC: SysOpsVPC
+Click Create.
+Check the box next to BastionSG.
+Click the Inbound Rules tab.
+Click Edit rules, and set the following values:
+Type: SSH
+Source: Anywhere
+Description: SSH from anywhere
+Click Save rules.
+LoadBalancerSG
+Click Create security group, and set the following values:
+Security group name: LoadBalancerSG
+Description: Load balancer security group
+VPC: SysOpsVPC
+Click Create.
+Check the box next to LoadBalancerSG.
+For its inbound rules, click Edit rules, and set the following values:
+Type: HTTP
+Source: Anywhere
+Description: HTTP from anywhere
+Click Add Rule, and use these settings:
+Type: HTTPS
+Source: Anywhere
+Description: HTTPS from anywhere
+Click Save rules.
+WebServerSG
+Click Create security group, and set the following values:
+Security group name: WebServerSG
+Description: Web server security group
+VPC: SysOpsVPC
+Click Create.
+Check the box next to WebServerSG.
+For its inbound rules, click Edit rules, and set the following values:
+Type: SSH
+Source: Custom, BastionSG
+Description: SSH from bastion
+Click Add Rule, set the following values:
+Type: HTTP
+Source: Custom, LoadBalancerSG
+Description: HTTP from ALB
+Click Add Rule, set the following values:
+Type: HTTPS
+Source: Custom, LoadBalancerSG
+Description: HTTPS from ALB
+Click Save rules.
+DatabaseSG
+Click create security group, and set the following values:
+Security group name: DatabaseSG
+Description: Database security group
+VPC: SysOpsVPC
+Click Create.
+Check the box next to DatabaseSG.
+For its inbound rules, click Edit rules, and set the following values:
+Type: MySQL
+Source: Custom, WebServerSG
+Description: MySQL from WebServerSG
+Click Save rules.
+Create Launch Configurations and Auto Scaling groups
+Create Launch Figuration for First Auto Scaling Group
+Navigate to EC2 > Auto Scaling Groups.
+Click Create Auto Scaling group.
+Select Launch Configuration, and click Next Step.
+Paste in the AMI ID of the Amazon Linux 2 AMI instance.
+Leave t2.micro chosen, and click Next: Configure details.
+Give it a Name of BastionLC.
+For IP Address Type, select Assign a public IP address to every instance.
+Click Next: Add Storage.
+Leave the defaults, and click Next: Configure Security Group.
+For Assign a security group, choose Select an existing security group.
+Select BastionSG.
+Click Review, and then Create launch configuration.
+Create a new key pair (example name: bastion), and download it.
+Click Create launch configuration.
+Create First Auto Scaling Group
+On the Create Auto Scaling Group page, set the following values:
+Group name: BastionASG
+Group size: 1 instances
+Network: SysOpsVPC
+Subnet: DMZ1public and DMZ2public
+Click Next: Configure scaling policies.
+Select Keep group at its initial size, and click Review.
+Click Create Auto Scaling group, and then Close.
+Create Launch Configuration for Second Auto Scaling Group
+Click Create Auto Scaling group.
+Select Launch Configuration, Create a new launch configuration, and click Next Step.
+Click Select beside Amazon Linux 2 AMI.
+Leave t2.micro chosen, and click Next: Configure details.
+Give it a Name of WebServerLC.
+Click Advanced Details, and paste the script from GitHub into the User data box.
+Click Next: Add storage.
+Leave the defaults, and click Next: Configure Security Group.
+For Assign a security group, choose Select an existing security group.
+Select WebServerSG.
+Click Review, and then Create launch configuration.
+Choose the existing key pair we just created.
+Click Create launch configuration, and Close.
+Create Second Auto Scaling Group
+On the Create Auto Scaling Group page, use the following settings:
+Group name: WebServerASG
+Group size: 2 instances
+Network: SysOpsVPC
+Subnet: AppLayer1private and AppLayer2private
+Click Next: Configure scaling policies.
+Select Keep group at its initial size, and click Review.
+Click Create Auto Scaling group, and then Close.
+Modify Database Security Groups and Create an ALB
+Modify the Database Security Group
+Navigate to RDS.
+Click Databases in the left-hand menu.
+Select our listed database.
+Note: Before we modify anything, in the Connectivity & security section, copy the Endpoint listed (e.g., wordpress-database.clei7j95opir.us-east-1.rds.amazonaws.com) and paste it into a note or text file — we're going to need it in a few minutes for the last part of the lab.
+
+Click Modify at the top.
+In the Network & Security section, delete the default security group listed.
+Choose our DatabaseSG from the Security group dropdown.
+Click Continue.
+Select Apply Immediately, and then Modify DB Instance.
+Create an ALB
+Navigate to EC2, and then click Load Balancers in the left-hand menu.
+Click Create Load Balancer.
+In the Application Load Balancer box, click Create.
+Use the following configuration settings:
+Under Basic Configuration, give it a Name of "ALB1".
+Under Availability Zones, select the default SysOpsVPC and check both availability zones.
+Click Next: Configure Security Settings.
+Click Next: Configure Security Groups.
+Un-check the default security group, and select LoadBalancerSG.
+Click Next: Configure Routing.
+In the Target group section, give it a Name of "TG1".
+In the Health checks section, enter a Path of "/readme.html".
+Click Next: Register Targets.
+Click Next: Review, and then Create.
+Modify Auto Scaling Group
+Click Auto Scaling Groups in the left-hand menu.
+Select WebServerASG.
+In the Details section below, click Edit.
+Click into Target Groups box, and select TG1.
+Click Save.
+Browse Web Application
+Navigate to Load Balancers.
+Copy the DNS name, and paste it into a new browser tab.
+Click Let's go!, and configure WordPress:
+Database Name: wordpressdb
+Username: wpuser
+Password: Password1
+Database Host: Enter the RDS endpoint name
+Table prefix: wp_
+Click Submit, and Run the installation.
+Click Log in, but then navigate back to the Load Balancer DNS name.
+Conclusion
+Congratulations on completing this hands-on lab!
+
+##########################################################
+############################################################
+
+Deploying a Basic Infrastructure Using CloudFormation Templates
+Introduction
+In this hands-on lab, we will use CloudFormation to provision a basic infrastructure environment with an EC2 instance. There are many different basic infrastructures you could build with CloudFormation, and this lab is just one example. We will complete several objectives throughout this lab, including creating an EC2 key pair, using a CloudFormation template to deploy a basic infrastructure with an EC2 instance, and finally logging in to the instance via SSH to demonstrate the CloudFormation stack provisioned and deployed the environment correctly.
+
+Solution
+Log in to the live AWS environment using the credentials provided. Make sure you are in the us-east-1 (N. Virginia) region throughout the lab.
+
+Use this link for the CloudFormation template to provision an EC2 instance.
+
+Open your terminal or use the Linux Academy Cloud Playground terminal; select the Instant Terminal tab.
+
+Create an EC2 Key Pair and Use the Provided CloudFormation Template to Provision an EC2 Instance
+Navigate to EC2.
+On the left-hand menu, click Key Pairs.
+Click Create Key Pair.
+Give it a name (e.g., "EC2keypairCFtemplate"), leave the other options at their defaults and click Create.
+Navigate to CloudFormation.
+Click Create stack.
+Select Create template in Designer.
+Click Create template in designer.
+Select the Template tab.
+Delete the existing code.
+Copy the provided CloudFormation template and paste it into the template section.
+Click the checkbox at the top to validate the template, and then click the cloud icon with the up arrow to create the stack.
+Click Next.
+On the stack details page, set the following values:
+Stack name: EC2CFTemplate
+KeyName: Select your key pair in the dropdown
+Click Next.
+Leave the defaults on the stack options page, and click Next.
+Click Create stack.
+Navigate to VPC and verify the template provisioned and deployed our basic networking infrastructure.
+Use the EC2 Public IP Address and the Terminal to Ping the Instance
+Navigate to EC2 > Instances.
+With the running instance selected, click Connect.
+In the terminal window, navigate to the directory where you saved your key pair (most likely your downloads folder):
+cd Downloads
+Copy the chmod command in the Connect To Your Instance window and paste it into the terminal to set permissions on your key pair.
+
+Copy and paste the ssh - i connection string into your terminal window to connect to the instance.
+
+Conclusion
+Congratulations on successfully completing this hands-on lab!
+
+############################################################
+############################################################
+
+Simple Disaster Recovery with CloudFormation and Lambda
+Introduction
+Recovering AWS workloads after a disaster is a crucial skill for organizations using the AWS cloud. This requires creating strategies and testing Disaster Recovery (DR) plans and techniques.
+
+CloudFormation offers a simple solution that can help with DR over the long term, and helps with working toward implementing more advanced strategies.
+
+One problem, however, is that AMI ID numbers can change over time, and vary from region to region. Adding a simple Lambda function to the strategy can automate and fix the issue.
+
+In This Lab You Will:
+Explore disaster recovery strategies including:
+Backup and Restore
+Pilot Light
+Warm Standby
+Multi-site
+Use a CloudFormation template to restore a production AWS environment.
+Examine a Lambda function and a CloudFormation Cross Stack Reference that can automate looking up current AMI ID numbers for launching resources in the correct VPC.
+Use a modified CloudFormation template with Lambda to launch an additional EC2 instance.
+The Scenario
+You’ve just taken over responsibility for an AWS workload consisting of an application (WordPress) running on EC2. There is currently no Disaster Recovery plan for this environment. In this lab, you will evaluate and test the use of a CloudFormation template to recreate the needed infrastructure in the event of a disaster. You will also further automate the process by adding a Lambda function that will lookup current AMI ID numbers and provide them to the CloudFormation template.
+
+Click here to download lab files (These files are stored in a GitHub repository; clicking on the Download button will allow you to download a ZIP file containing the necessary lab files. You'll need to open the ZIP file to extract the individual files before uploading them to S3)
+
+Logging In
+Use the credentials provided on the hands-on lab overview page, and log into the AWS console as cloud_user.
+
+Create a Key Pair
+In the AWS console, navigate to EC2, and then to Key Pairs (down a bit in the left hand menu). Once in there, click Create key pair. Give it a name in the next screen (DR_Lab_Keys should work), and leave the File format set to pem. Click on the Create key pair button. The browser should automatically download the file, and we'll just leave that for later in our downloads folder.
+
+Download CloudFormation Templates
+Now we can navigate to S3 in the AWS Console. If we click into the one that the lab environment created for us, we'll see a couple of files in there already. They're both CloudFormation templates that do the same thing, but one is written in JSON and the other in YAML.
+
+Upload Files to the S3 Bucket
+Remember the lab files we grabbed from GitHub? They came down as a zip, so once they're extracted on our local machine, we're going to upload those to this S3 bucket. In the same S3 window where we saw the JSON and YAML files, click the Upload button. Click Add files on the next window, then navigate to where we extracted the GitHub zip file. We want to upload 1-CF_WordPress_Blog_with_Lookup.json, 2-Add_Single_Instance.json, and amilookup.zip. So for each, click on it, then the Open button, and then repeat the process until all three are up in the bucket.
+
+Set up the Environment
+Click on CF_Wordpress_Blog.json, (Found in your lab provided S3 Bucket) and copy the Object URL at the bottom of the next screen. This file is the CloudFormation template we'll use to create the environment.
+
+In a new browser tab, because we'll be swapping back and forth quite a bit, navigate to CloudFormation in the AWS console.There is one stack in there already, but we want to create another one. Click Create stack and choose With new resources (standard) from the dropdown. Down in the Specify template section, paste in the S3 URL that we copied a little while ago. Click the Next button, then click it again. On the next screen give this a Stack name of ProdEnv. Choose our DR_Lab_Keys from the WebServerKeyName dropdown below that. Click Next again, and yet again on the following screen. On this last screen, click Create stack.
+
+We'll land out on the Stack details page, and here we can hit the refresh button down in the Events pane. As we refresh, we'll see the different things that our template is doing.
+
+Once everything is finished, we'll see a CREATE_COMPLETE message for our ProdEnv stack.
+
+Disaster Strikes
+We're going to simulate a disaster, so that we can practice recovering from it. Looking at the stack we just created, hit the Delete button (near the top of the window), and then click Delete stack in the pop up that we get. Press the same refresh button that we did before (in the Events section) to see things as they happen. Eventually, we'll see that the stack has ceased to be.
+
+Relaunch the Stack
+Let's get back into the original S3 bucket, and click on 1-CF_Wordpress_Blog_with_Lookup.json. Just like the last time we did this, copy the Object URL, then navigate to CloudFormation. Click Create stack and choose With new resources (standard) from the dropdown. Down in the Specify template section, paste in the S3 URL we just copied. Click Next twice. On the next screen, give the stack a name on the next screen (let's call it DR-Env), choose our DR_Lab_Keys from the WebServerKeyName dropdown, then click Next. Click Next on the following Configure stack options screen, and then on the final screen click Create Stack.
+
+Just like last time, we can watch the Events tab (hitting the refresh button occasionally) and see the stack come up. Once we see a CREATE_COMPLETE message for DR-Env, we can move on.
+
+Add an EC2 Instance to the Stack
+First, back in our original S3 bucket, get into the 2-Add_Single_Instance.json, and copy the Object URL. Back in CloudFormation, we're going to create a new stack. Click Create stack and choose With new resources (standard) from the dropdown. Down in the Specify template section, paste in this third S3 URL we copied, then click Next. We'll name this one SingleInstance, set the InstanceType to t2.micro. The ModuleName should already be populated with amilookup. Put the name of our original S3 bucket in the S3Bucket field (which we can grab by getting into that bucket and copying the name). The S3Key field should already be populated with amilookup.zip. Once these are filled in, we can click Next.
+
+We'll scroll down on the following page and click Next. On this final screen, we have to check a box acknowledging that AWS CloudFormation might create IAM resources. Then we can click Create stack. Just like with the other stacks, we can keep refreshing in the Events tab to watch things spin up.
+
+Conclusion
+We were able to simulate a disaster, then quickly recover using CloudFormation templates. Congratulations!
+
+############################################################
+############################################################
+
+Using CloudWatch for Resource Monitoring
+Introduction
+Welcome to this AWS hands-on lab for Using CloudWatch for Resource Monitoring!
+
+This lab provides practical experience with creating and configuring multiple custom AWS CloudWatch dashboards and widgets.
+
+The primary focus will be on the following features within CloudWatch:
+
+CloudWatch Dashboards
+Dashboard Widgets
+CloudWatch Metrics
+Solution
+Log in to the AWS Management Console using the credentials provided on the lab instructions page. Make sure you're using the us-east-1 region.
+Create a CloudWatch Dashboard for the DMZ Layer
+In the AWS Management Console, start typing "CloudWatch" into the search box and click on CloudWatch when it appears in the list.
+
+Click on Dashboards from the left-hand menu.
+
+Click Create dashboard.
+
+Under Dashboard name:, enter "DMZLayer".
+
+Click Create dashboard.
+
+Select the Line option and click Configure.
+
+Click EC2.
+
+Click Per-Instance Metrics.
+
+In the filter box, enter "CPUUtilization".
+
+Select the box next to bastion-host.
+
+Click on custom at the top of the window and select 15 Minutes.
+
+Click Create widget.
+
+Expand the graph for readability and then click Save dashboard.
+
+Create a CloudWatch Dashboard for the Application Layer
+Click on Metrics from the left-hand menu.
+
+Click EC2.
+
+Click Per-Instance Metrics.
+
+Find CPUUtilization under Metric Name and click the down arrow next to the name. Select Search for this only from the menu.
+
+Select the database instance and both instance-wordpress instances by clicking the boxes next to their names.
+
+Click the dropdown at the top with the word Line displayed. Select Stacked area from the list of options.
+
+Click on custom at the top of the window and select 15 Minutes.
+
+Click Actions at the top of the window and select Add to dashboard.
+
+Click Create new under Select a dashboard. Enter "AppLayer" in the box that appears and then click the checkmark next to the box.
+
+Click Add to dashboard.
+
+Expand the graph for readability and then click Save dashboard.
+
+Add Custom Widgets for the Application Layer
+Click Add widget.
+
+Select Number.
+
+Click Configure.
+
+Click ApplicationELB.
+
+Click Per AppELB Metrics.
+
+Find RequestCount under Metric Name and select it.
+
+Click Create widget.
+
+Click Save dashboard.
+
+Click Add widget.
+
+Select Line.
+
+Click Configure.
+
+Click EC2.
+
+Click Per-Instance Metrics.
+
+Find NetworkIn under Metric Name and click the down arrow next to the name.
+
+Select Search for this only.
+
+Select the database instance and both instance-wordpress instances by clicking the boxes next to their names.
+
+Click Create widget.
+
+Click Save dashboard.
+
+Test the Widgets
+Click Services in the top menu bar.
+
+Click EC2 under Compute.
+
+Click Load Balancers under LOAD BALANCING.
+
+Copy the DNS name of the only available load balancer.
+
+Open a new tab and navigate to the copied DNS name.
+
+Click Continue.
+
+For Site Title, enter "Lab".
+
+For Username, enter "wpuser".
+
+For Password, enter "Password1".
+
+Click the box for Confirm use of weak password.
+
+Enter our email address in the box provided.
+
+Click Install WordPresS.
+
+Click Log In.
+
+Enter the credentials just created and log in to the site.
+
+Switch back to the AWS Management Console.
+
+Click CloudWatch from the left-hand menu.
+
+Click Dashboards from the left-hand menu.
+
+Click AppLayer.
+
+Click custom at the top.
+
+Select 5 Minutes.
+
+Click the down arrow in the top left next to the refresh button.
+
+Select Auto refresh and an interval of 10 Seconds.
+
+Conclusion
+Congratulations — you've completed this hands-on lab!
+
+#########################################################
+#########################################################
+
+///////////Terraform /////////////////////////////
+//////////////////////////////////////////////////
+terraform init
+terraform fmt (format to readable format)
+terraform validate
+terraform plan (выведет то что, будет сделано при apply)
+terraform apply
+terraform destroy
+
+permissions for aws iam role or user
+
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "CustomPolicyForACGAWSTFCourse",
+      "Action": [
+        "ec2:Describe*",
+        "ec2:Get*",
+        "ec2:AcceptVpcPeeringConnection",
+        "ec2:AttachInternetGateway",
+        "ec2:AssociateRouteTable",
+        "ec2:AuthorizeSecurityGroupEgress",
+        "ec2:AuthorizeSecurityGroupIngress",
+        "ec2:CreateInternetGateway",
+        "ec2:CreateNetworkAcl",
+        "ec2:CreateNetworkAclEntry",
+        "ec2:CreateRoute",
+        "ec2:CreateRouteTable",
+        "ec2:CreateSecurityGroup",
+        "ec2:CreateSubnet",
+        "ec2:CreateTags",
+        "ec2:CreateVpc",
+        "ec2:CreateVpcPeeringConnection",
+        "ec2:DeleteNetworkAcl",
+        "ec2:DeleteNetworkAclEntry",
+        "ec2:DeleteRoute",
+        "ec2:DeleteRouteTable",
+        "ec2:DeleteSecurityGroup",
+        "ec2:DeleteSubnet",
+        "ec2:DeleteTags",
+        "ec2:DeleteVpc",
+        "ec2:DeleteVpcPeeringConnection",
+        "ec2:DetachInternetGateway",
+        "ec2:DisassociateRouteTable",
+        "ec2:DisassociateSubnetCidrBlock",
+        "ec2:CreateKeyPair",
+        "ec2:DeleteKeyPair",
+        "ec2:DeleteInternetGateway",
+        "ec2:ImportKeyPair",
+        "ec2:ModifySubnetAttribute",
+        "ec2:ModifyVpcAttribute",
+        "ec2:ModifyVpcPeeringConnectionOptions",
+        "ec2:RejectVpcPeeringConnection",
+        "ec2:ReplaceNetworkAclAssociation",
+        "ec2:ReplaceNetworkAclEntry",
+        "ec2:ReplaceRoute",
+        "ec2:ReplaceRouteTableAssociation",
+        "ec2:RevokeSecurityGroupEgress",
+        "ec2:RevokeSecurityGroupIngress",
+        "ec2:RunInstances",
+        "ec2:TerminateInstances",
+        "ec2:UpdateSecurityGroupRuleDescriptionsEgress",
+        "ec2:UpdateSecurityGroupRuleDescriptionsIngress",
+        "acm:*",
+        "elasticloadbalancing:AddListenerCertificates",
+        "elasticloadbalancing:AddTags",
+        "elasticloadbalancing:CreateListener",
+        "elasticloadbalancing:CreateLoadBalancer",
+        "elasticloadbalancing:CreateRule",
+        "elasticloadbalancing:CreateTargetGroup",
+        "elasticloadbalancing:DeleteListener",
+        "elasticloadbalancing:DeleteLoadBalancer",
+        "elasticloadbalancing:DeleteRule",
+        "elasticloadbalancing:DeleteTargetGroup",
+        "elasticloadbalancing:DeregisterTargets",
+        "elasticloadbalancing:DescribeListenerCertificates",
+        "elasticloadbalancing:DescribeListeners",
+        "elasticloadbalancing:DescribeLoadBalancerAttributes",
+        "elasticloadbalancing:DescribeLoadBalancers",
+        "elasticloadbalancing:DescribeRules",
+        "elasticloadbalancing:DescribeSSLPolicies",
+        "elasticloadbalancing:DescribeTags",
+        "elasticloadbalancing:DescribeTargetGroupAttributes",
+        "elasticloadbalancing:DescribeTargetGroups",
+        "elasticloadbalancing:DescribeTargetHealth",
+        "elasticloadbalancing:ModifyListener",
+        "elasticloadbalancing:ModifyLoadBalancerAttributes",
+        "elasticloadbalancing:ModifyRule",
+        "elasticloadbalancing:ModifyTargetGroup",
+        "elasticloadbalancing:ModifyTargetGroupAttributes",
+        "elasticloadbalancing:RegisterTargets",
+        "elasticloadbalancing:RemoveListenerCertificates",
+        "elasticloadbalancing:RemoveTags",
+        "elasticloadbalancing:SetSecurityGroups",
+        "elasticloadbalancing:SetSubnets",
+        "route53:Get*",
+        "route53:List*",
+        "route53:ChangeResourceRecordSets",
+        "ssm:Describe*",
+        "ssm:GetParameter",
+        "ssm:GetParameters",
+        "ssm:GetParametersByPath",
+        "s3:CreateBucket",
+        "s3:DeleteBucket",
+        "s3:DeleteObject",
+        "s3:GetBucketLocation",
+        "s3:GetObject",
+        "s3:HeadBucket",
+        "s3:ListBucket",
+        "s3:PutObject"
+      ],
+      "Effect": "Allow",
+      "Resource": "*"
+    }
+  ]
+}
+
+####################################################################
+############ Terraform lab Creating a Multi-Region Network with VPC Peering Using SGs, IGW, and RTs################
+Creating a Multi-Region Network with VPC Peering Using SGs, IGW, and RTs
+Introduction
+It can get cumbersome trying to track all the different routing components of a network, especially in the fast-moving, dynamic IT operations world today. By maintaining your AWS resources such as VPC, SGs, and IGWs using Terraform, you can track all of the changes as code.
+
+In this lab, students will go through creating a network setup complete with VPCs, subnets, security groups, internet gateways, and VPC peering in AWS using Terraform. Students are expected to have working knowledge of VPC resources and basic network components within AWS to be able to take full advantage of this lab.
+
+Solution
+Log in to the Terraform Controller Node EC2 Instance
+Find the details for logging in to the Terraform Controller node provided by the hands-on lab interface and log in to the node using SSH:
+
+ ssh cloud_user@<IP-OF-TERRAFORM-CONTROLLER>
+Note: This instance already has an EC2 instance profile (role) attached to it and has all necessary AWS API permissions required for this lab. It also has the AWS CLI set up and configured with the AWS account attached to this lab, for which the console login credentials are also provided in the lab interface page once the lab spins up.
+
+After logging in, verify the version of Terraform installed (should be 12.29). Execute the following command to check:
+
+ terraform version
+Clone the GitHub Repo for Terraform Code
+Use the git command to clone the GitHub repo which has the Terraform code for deploying the solution of this lab. GitHub repo URL.
+
+Execute the following command:
+
+ git clone https://github.com/linuxacademy/content-deploying-to-aws-ansible-terraform.git
+Change to the directory for lab Terraform code:
+
+ cd content-deploying-to-aws-ansible-terraform/lab_network_vpc_peering
+Examine the contents of the directory you're in:
+
+ ls
+Deploy the Terraform Code
+Initialize the Terraform directory you changed into to download the required provider
+
+ terraform init
+Ensure Terraform code is formatted properly:
+
+ terraform fmt
+Ensure code has proper syntax and no errors:
+
+ terraform validate
+See the execution plan and note the number of resources that will be created:
+
+ terraform plan
+Enter yes when prompted.
+
+Deploy resources:
+
+ terraform apply
+Enter yes when prompted.
+
+After terraform apply has run successfully, you can either use the AWS CLI on the Controller node to list and describe created resources or you can log in to the AWS Console to verify and investigate created resources.
+
+Finally, on the Terraform Controller node CLI, delete all resources which were created and ensure that it runs through successfully.
+
+ terraform destroy
+Conclusion
+Congratulations — you've completed this hands-on lab!
+
+############################################################
+#############################################################
+Deploying Jenkins Master and Worker Nodes in AWS Behind an ALB Using Terraform and Ansible
+Introduction
+In this hands-on lab, the student will deploy Jenkins master and worker nodes on AWS EC2 instances across regions through Terraform and manage the software and integration with Ansible.
+
+Solution
+Log in to the Terraform Controller Node EC2 Instance
+Find the details for logging in to the Terraform Controller node provided by the hands-on lab interface and log in to the node using SSH:
+
+ ssh cloud_user@<IP-OF-TERRAFORM-CONTROLLER>
+Note: This instance already has an EC2 instance profile (role) attached to it and has all necessary AWS API permissions required for this lab. It also has the AWS CLI set up and configured with the AWS account attached to this lab, for which the console login credentials are also provided in the lab interface page once the lab spins up.
+
+After logging in, verify the version of Terraform installed (should be 12.29). Execute the following command to check:
+
+ terraform version
+Clone the GitHub Repo for Terraform Code
+Use the git command to clone the GitHub repo which has the Terraform code for deploying the solution of this lab. GitHub repo URL.
+
+Execute the following command:
+
+ git clone https://github.com/linuxacademy/content-deploying-to-aws-ansible-terraform.git
+Change to the directory for lab Terraform code:
+
+ cd content-deploying-to-aws-ansible-terraform/lab_jenkins_master_worker
+Examine the contents of the directory you're in:
+
+ ls
+Run the gen_ssh_key.yaml Ansible Playbook to Generate SSH Key Pair
+Run the Ansible Playbook:
+
+ ansible-playbook ansible_templates/gen_ssh_key.yaml
+This Ansible Playbook will generate an SSH key pair for you user cloud_user which is required for deploying EC2 key pairs in our code.
+
+Note: Alternatively, you may also run the following Linux command to do the same:
+
+ ssh-keygen -t rsa
+When this command prompts for input, keep pressing enter until you're returned to the prompt. Do not enter a passphrase.
+
+Deploy the Terraform Code
+Initialize the Terraform directory you changed into to download the required provider
+
+ terraform init
+Ensure Terraform code is formatted properly:
+
+ terraform fmt
+Ensure code has proper syntax and no errors:
+
+ terraform validate
+See the execution plan and note the number of resources that will be created:
+
+ terraform plan
+Deploy resources:
+
+ terraform apply
+Enter yes when prompted.
+
+After terraform apply has run successfully, you can either use the AWS CLI on the Controller node to list and describe created resources or you can log in to the AWS Console to verify and investigate created resources.
+
+After a successful terraform apply, you will get the DNS URL of the ALB. Test it out to see if you can reach your Jenkins deployment.
+
+Jenkins credentials:
+
+username: admin
+password: password
+Finally, on the Terraform Controller node CLI, delete all resources which were created and ensure that it runs through successfully.
+
+ terraform destroy
+Conclusion
+Congratulations — you've completed this hands-on lab!
+
+###########################################
+####################################################
+Creating Route 53 Records (Alias) to Route Traffic to an ALB Using Terraform
+Introduction
+In this hands-on lab, the student will be creating a Route 53 alias record to route traffic from a publicly hosted zone in Route 53 (already provided by A Cloud Guru lab environment) to an application load balancer using Terraform template(s). Please note that changes to Route 53 records may take some time to propagate.
+
+Solution
+Log in to the Terraform Controller Node EC2 Instance
+Find the details for logging in to the Terraform Controller node provided by the hands-on lab interface and log in to the node using SSH:
+
+ ssh cloud_user@<IP-OF-TERRAFORM-CONTROLLER>
+Note: This instance already has an EC2 instance profile (role) attached to it and has all necessary AWS API permissions required for this lab. It also has the AWS CLI set up and configured with the AWS account attached to this lab, for which the console login credentials are also provided in the lab interface page once the lab spins up.
+
+After logging in, verify the version of Terraform installed (should be 12.29). Execute the following command to check:
+
+ terraform version
+Clone the GitHub Repo for Terraform Code
+Use the git command to clone the GitHub repo which has the Terraform code for deploying the solution of this lab. GitHub repo URL.
+
+Execute the following command:
+
+ git clone https://github.com/linuxacademy/content-deploying-to-aws-ansible-terraform.git
+View the resource IDs to use in the next step:
+
+ cat resource_ids.txt
+Copy all of these values to a notepad file as they will be used later in the lab.
+
+Change to the directory for lab Terraform code:
+
+ cd content-deploying-to-aws-ansible-terraform/lab_deploying_dns_acm
+Examine the contents of the directory you're in:
+
+ ls
+Plug in the Provided Resource Values into import_resources.tf
+You will need the values for a few pre-configured resources to complete this lab, such as Security Group IDs. These values can be found in the resource_id.txt file in the cloud_user home directory.
+
+Edit the import_resources.tf file to provide the values copied in the previous step:
+
+ vim import_resources.tf
+Using the values copied in the previous step, replace the "" text for each of the respective values.
+
+Save and quit the file:
+
+ :wq
+Get Public Hosted Route 53 Zone and Plug It Into variables.tf
+A publicly-hosted domain is provided for you as part of this lab and your Terraform controller node has the permissions to make API calls to Route 53 to fetch it.
+
+Carry out the following steps to fetch the domain and plug it into a variable:
+
+Issue the command:
+
+ aws route53 list-hosted-zones | jq -r .HostedZones[].Name | egrep "cmcloud*"
+This will output a DNS name, ending with a dot.
+
+Copy the DNS value, ensure that you copy the trailing . at the end as well.
+
+Replace it against the default value of the dns-name variable in the variables.tf file:
+
+ vim variables.tf
+Save and quit the file:
+
+ :wq
+Deploy the Terraform Code
+Initialize the Terraform directory you changed into to download the required provider
+
+ terraform init
+Ensure Terraform code is formatted properly:
+
+ terraform fmt
+Ensure code has proper syntax and no errors:
+
+ terraform validate
+See the execution plan and note the number of resources that will be created:
+
+ terraform plan
+Deploy resources:
+
+ terraform apply
+Enter yes when prompted.
+
+After terraform apply has run successfully, you can either use the AWS CLI on the Controller node to list and describe created resources or you can log in to the AWS Console to verify and investigate created resources.
+
+Finally, on the Terraform Controller node CLI, delete all resources which were created and ensure that it runs through successfully.
+
+ terraform destroy
+Conclusion
+Congratulations — you've completed this hands-on lab!
+
+###################################################################
+#####################################################################
+Deploying to AWS with Terraform and Ansible
+Introduction
+You were recently hired as an Infrastructure Automation Engineer at a SaaS company. The company is trying to move away from cloud-provider-specific infrastructure as code. They want to test out Terraform for infrastructure deployment as it is cloud agnostic and Ansible as it is OS agnostic and also a hybrid IaC tool.
+
+Your first task is to use Terraform and Ansible to deploy a distributed Jenkins CI/CD pipeline and put it behind one of the company's DNS domains for testing. It sounds easy enough but there's quite some planning which will go into this and you're already on top of it.
+
+Solution
+Log in to the Terraform Controller Node EC2 Instance
+Find the details for logging in to the Terraform Controller node provided by the hands-on lab interface and log in to the node using SSH.
+
+ ssh cloud_user@<IP-OF-TERRAFORM-CONTROLLER>
+Note: This Instance already has an EC2 instance profile (role) attached to it and has all necessary AWS API permissions required for this lab. It also has the AWS CLI set up and is configured with the AWS account attached to this lab, for which the console login credentials are also provided in the lab interface page once the lab spins up.
+
+After logging in, check the version of Terraform that is installed. Execute the following command to check:
+
+ terraform version
+Clone the GitHub Repo for Terraform Code
+Use the git command to clone the GitHub repo which has the Terraform code to deploy to complete this lab. GitHub repo URL.
+
+Execute the following command:
+
+ git clone https://github.com/linuxacademy/content-deploying-to-aws-ansible-terraform.git`
+Change directory to the directory for lab Terraform code:
+
+ cd content-deploying-to-aws-ansible-terraform/aws_la_cloudplayground_multiple_workers_version`
+Execute ls and examine the contents of the directory you're in.
+
+View the contents of backend.tf to view the backend information for storing state files.
+
+Configure an S3 Bucket
+Create the S3 bucket, providing a unique bucket name:
+
+ aws s3api create-bucket --bucket <UNIQUE_BUCKET_NAME>
+Copy the unique bucket name after it is successfully created. Edit the backend.tf file and replace "" for the bucket variable with your unique bucket name.
+
+Save and close the file
+
+ :wq
+Configure Route 53 Public DNS
+Display the domain name:
+
+ aws route53 list-hosted-zones | jq -r .HostedZones[].Name | egrep "cmcloud*"
+Copy the result of the previous command and edit the variables.tf file.
+
+ vim variables.tf
+Navigate to the variable "dns-name" stanza and replace the text "" with the domain name we copied earlier. Be sure to include the . at the end of the domain name.
+
+Save and close the file:
+
+ :wq
+Create an SSH Key Pair
+Create the key pair, pressing Enter three times after running the command to accept the defaults:
+
+ ssh-keygen -t rsa
+Deploy the Terraform Code
+Initialize the Terraform directory you changed into to download the required provider:
+
+ terraform init
+Ensure Terraform code is properly formatted:
+
+ terraform fmt
+Ensure code has proper syntax and no errors:
+
+ terraform validate
+See the execution plan and note the number of resources that will be created:
+
+ terraform plan
+Deploy resources
+
+ terraform apply
+Enter yes when prompted.
+
+After terraform apply has run successfully, you can use the AWS CLI on the Controller node to list, describe created resources, and additionally also log in to the AWS Console to verify and investigate created resources.
+
+Finally, on the Terraform Controller node CLI, execute terraform destroy and enter yes when prompted to delete all resources which were created and ensure that it runs through successfully.
+
+Test Out Your Deployment
+Test out the URL of your website returned in Terraform outputs.
+
+In a new web browser tab, navigate to the URL provided in the results of the terraform apply command run previously. Use the following Jenkins credentials:
+
+Username: admin
+Password password
+Changing the workers count by modifying workers-count variable in the variables.tf file and ensure that Terraform apply is successful.
+
+Click Manage Jenkins from the menu on the left of the page.
+Click Manage Nodes and Clouds from the System Configuration section.
+From your terminal, edit the variables.tf file and increase the workers-count variable from 1** to **0.
+
+ vim variables.tf
+Run terraform apply again to apply this configuration change. Enter yes when prompted.
+Back in your web browser, refresh the page to verify the number of worker nodes is updated.
+Conclusion
+Congratulations — you've completed this hands-on lab!
+
+
+##########################################################################
+CREATE NAME SERVERS Lab
+Creating Name Servers
+Introduction
+We need to set up two DNS hosts, a master and a slave, as well as configuring a client to use our hosts.
+
+Note: This is not a secure implementation and should not be implemented in a production environment.
+
+We've been provided with three hosts:
+
+Server1
+This host (dns1) should be configured as a master DNS host for the example.com zone, with valid forward and reverse records.
+
+Server2
+This host (dn2) should be configured as a slave DNS host for dns1, and have an A record (and resolve) to dns2.example.com.
+
+Client1
+This host (client) should be configured to use dns2.example.com as it's primary DNS host, and successfully resolve dns1.example.com and dns2.example.com to their respective internal IPs.
+
+Get logged in
+Use the credentials and server IP in the hands-on lab overview page to log into our lab server. Notice there are multiple machines we're working with. Pay attention in the lab guide, as the shell prompt will reveal which one we're working with at the moment.
+
+Install BIND on the Primary DNS Host
+We're going to be running lots of things that require elevated privileges, so let's become root right off (su -), then we can get moving.
+
+We need to install BIND prior to configuring it:
+
+[root@dns1]# yum install bind bind-utils
+Then we need to enable the service, but we won't start it until configuration is complete:
+
+[root@dns1]# systemctl enable named
+Configure BIND on the Primary DNS Host
+BIND's primary configuration file is /etc/named.conf. We need to edit that in order to configure BIND.
+
+Add the Local IP to the listen-on Line
+Down in the options section, add our IP to the listen-on port line:
+
+listen-on port 53 { 127.0.0.1; 10.0.1.10;};
+Limit Queries to localhost and the Secondary DNS host
+We've got to add dns2's IP to the allow-query line too, and add a new line that permit transfers to it:
+
+allow-query     { localhost; 10.0.1.11; };
+allow-transfer  { localhost; 10.0.1.11; };
+Disable Recursion
+A few lines later, we want to disable recursion, changing yese to no:
+
+recursion no;
+Add Zones
+Just above the above the includes section, near the bottom of the file, we need to add forward and reverse zones:
+
+zone "example.com" IN {
+type master;
+file "forward.example.com";
+allow-update { none; };
+};
+zone "1.0.10.in-addr.arpa" IN {
+type master;
+file "reverse.example.com";
+allow-update { none; };
+};
+We can save and exit the file now.
+
+Create Zone Files on the Primary DNS Host
+Now we've got to create the zone files. We should locate them in /var/named/, and the names must match what we referenced in /etc/named.conf: forward.example.com, and reverse.example.com. Here are their contents:
+
+forward.example.com:
+$TTL 86400
+@   IN  SOA     ns1.example.com. server1.example.com. (
+        2018091201  ;Serial
+        3600        ;Refresh
+        1800        ;Retry
+        604800      ;Expire
+        86400       ;Minimum TTL
+)
+@           IN  NS  ns1.example.com.
+@           IN  NS  ns2.example.com.
+server1     IN  A   10.0.1.10
+ns1         IN  A   10.0.1.10
+server2     IN  A   10.0.1.11
+ns2         IN  A   10.0.1.11
+client1     IN  A   10.0.1.12
+reverse.example.com:
+$TTL 86400
+@   IN  SOA     ns1.example.com. server1.example.com. (
+        2018091201  ;Serial
+        3600        ;Refresh
+        1800        ;Retry
+        604800      ;Expire
+        86400       ;Minimum TTL
+)
+@           IN  NS  ns1.example.com.
+@           IN  NS  ns2.example.com.
+server1     IN  A   10.0.1.10
+ns1         IN  A   10.0.1.10
+server2     IN  A   10.0.1.11
+ns2         IN  A   10.0.1.11
+client1     IN  A   10.0.1.12
+10          IN PTR server1.example.com.
+10          IN PTR ns1.example.com.
+11          IN PTR server2.example.com.
+11          IN PTR ns2.example.com.
+12          IN PTR client1.example.com.
+Verify the Configuration of the Primary DNS Host (10.0.1.10)
+We'll check to see if everything is set up correctly:
+
+[root@dns1]# named-checkconf /etc/named.conf
+[root@dns1]# named-checkzone example.com /var/named/forward.example.com
+[root@dns1]# named-checkzone example.com /var/named/reverse.example.com
+Start BIND on the Primary Host
+Let's fire up BIND and see what happens:
+
+[root@dns1]# systemctl start named
+Then query our name server with dig:
+
+[root@dns1]# dig @localhost server1.example.com
+We've got to modify the firewall, so that the dns2 host can query this one:
+
+[root@dns1]# firewall-cmd --permanent --add-rich-rule='rule family="ipv4" source address="10.0.1.11" destination address=10.0.1.10 port port=53 protocol=tcp accept'
+[root@dns1]# firewall-cmd --permanent --add-rich-rule='rule family="ipv4" source address="10.0.1.11" destination address=10.0.1.10 port port=53 protocol=udp accept'
+[root@dns1]# firewall-cmd --reload
+Configure the Secondary Host
+Over on dns2, we've got to install BIND and enable it. Just like on dns1, we're going to be running several things that require elevated privileges, so just become root right off (su -), and we'll get moving.
+
+Install BIND and enable it:
+
+[root@dns2]# yum install bind bind-utils
+Then we've got to edit /etc/named.conf, like we did on dns.
+
+Add the Local IP to the listen-on Line
+listen-on port 53 { 127.0.0.1; 10.0.1.11;};
+Limit Queries to the Local Subnet
+allow-query     { localhost; 10.0.1.0/24; };
+Disable Recursion
+recursion no;
+Add Zones
+We've got to add the same zones we did on dns1. Again, this is down near the bottom of named.conf:
+
+zone "example.com" IN {
+type slave;
+file "/slaves/example.com.fwd";
+masters { 10.0.1.10; };
+};
+zone "1.0.10.in-addr.arpa" IN {
+type slave;
+file "/slaves/example.com.rev";
+masters { 10.0.1.10; };
+};
+Start BIND on the Secondary Host
+Verify the configuration:
+
+[root@dns2]# named-checkconf /etc/named.conf
+Now we can enable the service and start it:
+
+[root@dns2]# systemctl enable named
+[root@dns2]# systemctl start named
+We can verify whether our configuration is good:
+
+[root@dns2]# dig @localhost server1.example.com
+Now we'll enable DNS traffic through the firewall:
+
+[root@dns2]# firewall-cmd --permanent --add-service=dns && firewall-cmd --reload
+Phew, the servers are done. Now we can move on to the client.
+
+Configure the Client to Use the Secondary DNS Host (10.0.1.11) for DNS
+Like we did on the servers, become root right off (su -) and then we can proceed.
+
+First, we'll install NetworkManager and start it:
+
+[root@client]# yum -y install NetworkManager
+[root@client]# systemctl enable NetworkManager && systemctl start NetworkManager
+Installing the bash-completion package will be handy too:
+
+[root@client] yum -y install bash-completion
+Then, we'll configure the interface to be static, assign the secondary host IP as the DNS, and the DNS searches be on example.com:
+
+[root@client]# nmcli con mod System\ eth0 ipv4.method manual ipv4.addresses 10.0.1.12/24 ipv4.gateway 10.0.1.1 ipv4.dns 10.0.1.11 ipv4.dns-search example.com
+We've got to remove the ec2.internal search domain from /etc/resolv.conf:
+
+[root@client]# sed -i '/ec2.internal/d' /etc/resolv.conf
+Restart networking to pickup the configuration change:
+
+[root@client]# systemctl restart network
+Now we can verify that it works, with dig:
+
+[root@client]# dig server1.example.com
+Conclusion
+We're done! We set up a DNS master, and a slave, and was able to query the domain from a client. Congratulations!
+
+############################################################
+#############################################################
+
+Advanced Firewalld
+Introduction
+In this hands-on lab, you will need to use firewalld to create a new service, add that new service to permitted connections for the default zone, drop all traffic from an IPSet, and add a rich rule for traffic from a specific subnet.
+
+Solution
+Begin by logging in to the lab servers using the credentials provided on the hands-on lab page:
+
+ssh cloud_user@PUBLIC_IP_ADDRESS
+Become the root user:
+
+sudo su -    
+Create a new service in firewalld
+The service name should be: jobsub.
+
+firewall-cmd --permanent --new-service=jobsub
+Set the description for the service:
+
+firewall-cmd --permanent --service=jobsub --set-description="Job Submission"
+The service's ports are: TCP 5671-5677.
+
+firewall-cmd --permanent --service=jobsub --add-port=5671-5677/tcp
+This service should be enabled for the default zone (public).
+
+First, reload the firewall:
+
+firewall-cmd --reload
+Then add the service to the default zone:
+
+firewall-cmd --permanent --add-service=jobsub
+Create an IPSet in firewalld
+You will need to create an IPSet for the following IPs and name it kiosk:
+
+10.0.1.12
+192.168.1.0/24
+Create a new IPSet:
+
+firewall-cmd --permanent --new-ipset=kiosk --type=hash:ip
+Add the specified IP addresses to the IPSet:
+
+firewall-cmd --permanent --ipset=kiosk --add-entry=10.0.1.12
+firewall-cmd --permanent --ipset=kiosk --add-entry=192.168.1.0/24
+Reload the firewall:
+
+firewall-cmd --reload
+Send all traffic from the kiosk IPSet to the drop zone.
+
+firewall-cmd --permanent --zone=drop --add-source=ipset:kiosk
+Add a rich rule for TCP 8080 traffic
+Add a rich rule to accept traffic from 10.0.1.0/24 to port 8080:
+
+firewall-cmd --permanent --add-rich-rule='rule family=ipv4 source address=10.0.1.0/24 port port=8080 protocol=tcp accept'
+Conclusion
+Congratulations — you've completed this hands-on lab!
+
+##################################################
+##################################################
+
+
+
+Setup OpenVPN
+The Scenario
+A business unit has deployed a site for private internal use, and only wants VPN users to have access. They are asking us to create a VPN server, and we have been provided with a client host as well.
+
+Server1 (10.0.1.10) Should be configured as a VPN server
+Client1 (10.0.2.11) Should be configured as a VPN client
+All configuration parameters and information are available in the tasks.
+
+Get logged in
+Use the credentials and server IP in the hands-on lab overview page to log into our lab server. Notice there are two machines we're working with. Pay attention in the lab guide, as the shell prompt will reveal which one we're working with at the moment.
+
+Install OpenVPN on Server1
+Before we do anything else, let's run a sudo -i right off. Then we'll be root and won't have to keep typing in a password.
+
+In order to install the OpenVPN package, we'll first need to install the EPEL repo:
+
+[root@Server1]# yum -y install epel-release
+Once EPEL is installed, we can go ahead with installing OpenVPN:
+
+[root@Server1]# yum -y install openvpn
+Let's enable masquerading in the firewall, and then reload things so the changes take effect:
+
+[root@Server1]# firewall-cmd --permanent --add-port=1194/tcp
+[root@Server1]# firewall-cmd --permanent --add-masquerade
+[root@Server1]# firewall-cmd --reload
+Create Keys and Credentials on Server1
+We'll use EasyRSA to create and sign the keys for the server and client. Install it with this:
+
+[root@Server1]# yum -y install easy-rsa
+Create a directory to hold the files we'll create:
+
+[root@Server1]# mkdir /etc/openvpn/easy-rsa
+and change our working directory to it:
+
+[root@Server1]# cd /etc/openvpn/easy-rsa
+To make things a littler easier, let's append the EasyRSA executable folder to our current path:
+
+[root@Server1]# PATH=$PATH:/usr/share/easy-rsa/3.0.8/
+Initialize PKI:
+
+[root@Server1]# easyrsa init-pki
+Build the CA (remember the password you use, you can leave the common name as the default):
+
+[root@Server1]# easyrsa build-ca
+Generate a Diffie-Hellman key for forward secrecy:
+
+[root@Server1]# easyrsa gen-dh
+Now we'll move on to the server credentials. For convenience, we won’t password protect these.
+
+Create the server certificate:
+
+[root@Server1]# easyrsa gen-req server nopass
+Sign the server certificate:
+
+[root@Server1]# easyrsa sign-req server server
+We'll be prompted to type yes here. There's also a spot in here where we've got to enter the password we created a few steps back, with the easyrsa init-pki command.
+
+Create the client certificate:
+
+[root@Server1]# easyrsa gen-req client nopass
+Sign the client certificate:
+
+[root@Server1]# easyrsa sign-req client client
+Type yes when prompted, and enter the same pass we did for the server creation.
+
+Now we need to generate the TLS key:
+
+[root@Server1]# cd /etc/openvpn
+[root@Server1]# openvpn --genkey --secret pfs.key
+Configure the OpenVPN Server on Server1
+We'll need to create and edit /etc/openvpn/server.conf Make sure it has these contents:
+
+port 1194
+proto tcp
+dev tun
+ca /etc/openvpn/easy-rsa/pki/ca.crt
+cert /etc/openvpn/easy-rsa/pki/issued/server.crt
+key /etc/openvpn/easy-rsa/pki/private/server.key
+dh /etc/openvpn/easy-rsa/pki/dh.pem
+topology subnet
+cipher AES-256-CBC
+auth SHA512
+server 10.8.0.0 255.255.255.0
+push "redirect-gateway def1 bypass-dhcp"
+push "dhcp-option DNS 8.8.8.8"
+push "dhcp-option DNS 8.8.4.4"
+ifconfig-pool-persist ipp.txt
+keepalive 10 120
+comp-lzo
+persist-key
+persist-tun
+status openvpn-status.log
+log-append openvpn.log
+verb 3
+tls-server
+tls-auth /etc/openvpn/pfs.key
+We should be able to enable and start OpenVPN now:
+
+[root@Server1]# systemctl enable openvpn@server.service
+[root@Server1]# systemctl start openvpn@server.service
+Package up Keys and Certificates on Server1 for Copying to Client1
+We'll need to package up the credentials we created, then copy them to Client1. These commands do it all:
+
+[root@Server1]# cd /etc/openvpn
+[root@Server1]# mkdir -p server1/keys
+[root@Server1]# cp pfs.key server1/keys
+[root@Server1]# cp easy-rsa/pki/dh.pem server1/keys
+[root@Server1]# cp easy-rsa/pki/ca.crt server1/keys
+[root@Server1]# cp easy-rsa/pki/private/ca.key server1/keys
+[root@Server1]# cp easy-rsa/pki/private/client.key server1/keys
+[root@Server1]# cp easy-rsa/pki/issued/client.crt server1/keys
+[root@Server1]# tar cvzf /tmp/keys.tgz server1/
+Install OpenVPN on Client1
+Just like when we logged into Server1, here in Client1 we want to be root, so let's run a sudo -i right of the bat, when we can carry on without needing to type admin passwords to run commands.
+
+We'll need to install EPEL before we can install OpenVPN:
+
+[root@Client1]# yum -y install epel-release
+[root@Client1]# yum -y install openvpn
+Copy and Install Keys from Server1 to Client1
+Now we need to copy the keys we tarred up on Server1 over to Client1.
+
+On Client1:
+
+[root@Client1]# cd /etc/openvpn
+[root@Client1]# scp cloud_user@10.0.1.10:/tmp/keys.tgz ./
+We'll need the password for Server1 at that point. Once the tar file makes the trip, we can extract it:
+
+[root@Client1]# tar xvzf keys.tgz
+Configure the VPN client on Client1
+With the keys in place, we can configure the client, using vim client.conf. Put ese contents into the file:
+
+client
+dev tun
+proto tcp
+remote 10.0.1.10 1194  
+ca server1/keys/ca.crt
+cert server1/keys/client.crt
+key server1/keys/client.key
+tls-version-min 1.2
+tls-cipher TLS-ECDHE-RSA-WITH-AES-128-GCM-SHA256:TLS-ECDHE-ECDSA-WITH-AES-128-GCM-SHA256:TLS-ECDHE-RSA-WITH-AES-256-GCM-SHA384:TLS-DHE-RSA-WITH-AES-256-CBC-SHA256
+cipher AES-256-CBC
+auth SHA512
+resolv-retry infinite
+auth-retry none
+nobind
+route-nopull
+persist-key
+persist-tun
+ns-cert-type server
+comp-lzo
+verb 3
+tls-client
+tls-auth server1/keys/pfs.key
+Start the Client:
+
+[root@Client1]# systemctl start openvpn@client.service
+Now if we run ip a, we'll see a tun0 interface listed, which is the VPN tunnel.
+
+Add a Static Route on Client1
+This is an optional step, and just sort of ties everything together.
+
+In order to have Client1 traffic to node1 originate on the 10.8.0.0/24 network, we'll need to add a static route, so that the VPN tunnel is the interface that connects to that host:
+
+[root@Client1]# ip route add 10.0.1.20 dev tun0
+We can can verify the entry using:
+
+[root@Client1]# ip route show
+We should now be able to access the website on node1:
+
+[root@Client1]# curl 10.0.1.20
+Conclusion
+We had a private web server, and only wanted folks accessing it over a VPN. This is exactly what we were supposed to do, and we're done. Congratulations!
+
+
+#################################################################
+################################################################
+
+
+Using the AWS CLI to Create an AWS Lambda Function
+Introduction
+This hands-on lab provides experience with creating and customizing Lambda functions, all from within the CLI. The primary focus will be on Lambda, AWS CLI, and CloudWatch log streams. AWS Lambda allows you to create functions and only have to worry about managing your code. Using the CLI allows you to "ditch the clicks" — all those mouse gestures required when you create a function within the console.
+
+Solution
+Log in to the live AWS environment using the credentials provided. Make sure you're in the N. Virginia (us-east-1) region throughout the lab.
+
+All code used in the lesson is available to download on GitHub. You do not need to rewrite it.
+
+Verify Lab Resources and Configure AWS CLI
+Navigate to S3, and verify at least two buckets are listed.
+
+Navigate to IAM > Roles.
+
+Click the listed lambda_exec_role_LA.
+
+Copy its Role ARN and paste it into a text file, as we'll need this later in the lab.
+
+Navigate to EC2 > Instances.
+
+Verify that the listed instance's public IP matches the public IP of the public instance provided on the lab page.
+
+Open a terminal session.
+
+Log in to the provided instance via SSH:
+
+ssh cloud_user@<PUBLIC IP>
+Make sure the AWS CLI works:
+
+aws help
+We should then see a man page, which means the AWS CLI is installed.
+
+Exit out of it by entering q.
+
+View the Lambda-specific man pages:
+
+aws lambda help
+Exit out of it by entering q.
+
+List all Lambda functions in the region:
+
+aws lambda list-functions --region us-east-1
+We should see an empty list.
+
+Create a Lambda Function Using the AWS CLI
+Create the file:
+
+vim lambda_function.js
+Enter the following (also found in the lambda_function.js file on GitHub):
+
+// Here is where we load the SDK for JavaScript
+const AWS = require('aws-sdk');
+
+// We need to set the region.
+AWS.config.update({region: 'us-east-1'});
+
+// Creating S3 service object
+const s3 = new AWS.S3({apiVersion: '2006-03-01'});
+
+exports.handler = (event, context, callback) => {
+    // Here we list all S3 Buckets
+    s3.listBuckets(function(err, data) {
+       if (err) {
+          console.log("Error:", err);
+       } else {
+          console.log("List of all S3 Buckets", data.Buckets);
+       }
+    });
+};
+Write and quit the file.
+
+Verify it's there:
+
+ls
+Zip the file:
+
+zip lambda_function.zip lambda_function.js
+Verify they both exist:
+
+ll
+Create the Lambda function (replacing <ROLE ARN> with the IAM role ARN you copied in the AWS console earlier):
+
+aws lambda create-function \
+--region us-east-1 \
+--function-name "ListS3Buckets" \
+--runtime "nodejs12.x" \
+--role "<ROLE ARN>" \
+--handler "lambda_function.handler" \
+--zip-file fileb:///home/cloud_user/lambda_function.zip
+In the AWS console, navigate to Lambda > Functions. We should see the ListS3Buckets function we just created. Note its current description.
+
+Back in the terminal, update the function:
+
+aws lambda update-function-configuration \
+--region us-east-1 \
+--function-name "ListS3Buckets" \
+--description "Creating our S3 function via CLI." \
+--timeout 5 \
+--memory-size 256
+In the AWS console, refresh the Lambda functions page. We should see an updated description.
+
+Click the function to view its code.
+
+Scroll to the Basic settings section to verify it has 256 MB memory and a five-second timeout.
+
+Invoke Your Function Using AWS CLI
+In the terminal, invoke the function:
+
+aws lambda invoke \
+--region us-east-1 \
+--function-name "ListS3Buckets" OUTFILE.log
+Back in the AWS console, click the Monitoring tab for our function. We should see an invocation.
+
+Navigate to CloudWatch > Logs.
+
+Click the listed log group.
+
+Click the listed log stream. There, we should see the log activity.
+
+Expand the print statement. There, we should see that we're printing "List of all S3 Buckets," followed by our bucket names and their creation dates.
+
+In the terminal, check the output of the OUTFILE.log file:
+
+cat OUTFILE.log
+We should see null since we aren't returning any response object — we're only printing to the CloudWatch logs, which we see in the AWS console.
+
+Conclusion
+Congratulations on successfully completing this hands-on lab!
+#################################################
+
+Triggering AWS Lambda from Amazon SQS
+Introduction
+In this hands-on AWS lab, you will learn how to trigger a Lambda function using SQS. This Lambda function will process messages from the SQS queue and insert the message data as records into a DynamoDB table.
+
+Solution
+Log in to the AWS Management Console using the credentials provided on the lab instructions page. Make sure you're using the us-east-1 (N. Virginia) region.
+
+Create the Lambda Function
+In the search bar on top, enter "lambda".
+From the search results, select Lambda.
+Click the Create function button.
+On the Create function page, select Author from scratch.
+Under Basic Information, set the following parameters for each field:
+Function name: Enter "SQSDynamoDB[add some unique letters here]".
+Runtime: Select Python 3.8 from the dropdown menu.
+Execution role: Select Use an existing role.
+Existing role: Select lambda-execution-role from the dropdown menu,
+Click the Create function button.
+Create the SQS Trigger
+Click the + Add trigger button.
+Under Trigger configuration, enter "sqs" in the search bar.
+From the search results, select Simple Queue Service.
+Under SQS queue, click the search bar and select Messages.
+Click Add.
+Copy the Source Code into the Lambda Function
+Under the + Add trigger button, click the Code tab.
+On the left side, double-click on lambda_function.py.
+Delete the contents of the function.
+In a new browser tab or window, open up this link to the source code for lambda_function.py.
+Copy the code.
+Return to the AWS console and paste the code into the lambda_function.py code box.
+Click the Deploy button.
+Log In to the EC2 Instance and Test the Script
+In the search bar on top of the console, enter "sqs".
+
+From the search results, select Simple Queue Service.
+
+Click Messages.
+
+Click the Monitoring tab to monitor our SQS messages.
+
+In the search bar on top, enter "ec2".
+
+From the search results, select EC2 and open it in a new browser tab or window.
+
+Under Resources, click Instances (running).
+
+In the existing instance available, click the checkbox next to its name.
+
+Click the Connect button at the top.
+
+Click Connect at the bottom to open a shell and access the command line.
+In the shell, become the cloud_user role:
+su - cloud_user
+View a list of files available to you:
+
+ls
+View the contents of the send_message.py file:
+
+cat send_message.py
+Start sending messages to our DynamoDB table from our Messages SQS queue with an interval of 0.1 seconds:
+
+./send_message.py -q Messages -i 0.1
+After a few seconds, hit Control + C to stop the command from continuing to run.
+
+Confirm Messages Were Inserted into the DynamoDB Table
+Return to the browser tab or window with the AWS console.
+In the search bar on top, enter "dynamodb".
+From the search results, select DynamoDB.
+In the left-hand navigation menu, select Tables.
+Select the Message table.
+Click on the Items tab and view the list of items that were inserted from our script, sent to SQS, triggered Lambda, and inserted into the DynamoDB database.
+Conclusion
+Congratulations — you've completed this hands-on lab!

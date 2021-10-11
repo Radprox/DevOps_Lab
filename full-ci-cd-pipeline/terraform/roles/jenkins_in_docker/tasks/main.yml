@@ -1,0 +1,46 @@
+ # add jenkins user and group 
+    - name: Ensure group "jenkins" exists
+      group:
+        name: jenkins
+        state: present
+        
+    - name: Add jenkins user
+      user:
+        name: jenkins
+        comment: jenkins user
+        group: jenkins
+        
+    - name: Create a directory if it does not exist
+      ansible.builtin.file:
+        path: /jenkins_home
+        state: directory
+        mode: '0755'
+        
+    # copy our jenkins config
+    - name: Copy out local Jenkins /var/lib/jenkins
+      unarchive:
+        src: /var/lib/jenkins.tar
+        dest: /jenkins_home/
+        
+  # permissions/owner
+    - name: Set ownership
+      file:
+        path: "/jenkins_home"
+        state: directory
+        recurse: yes
+        owner: jenkins
+        group: jenkins
+        
+    - name: example copying file with owner and permissions
+      copy:
+        src: /home/ansible/dynamic_inv/aws_ec2.yaml
+        dest: /jenkins_home/jenkins/aws_ec2.yaml
+        owner: jenkins
+        group: jenkins
+        mode: 0777
+        
+    # run jenkins container with connect to docker and ansible   
+    - name: Run jenkins
+      shell: docker run -d -u 0 --privileged --name jenkins -v /var/run/docker.sock:/var/run/docker.sock -v $(which docker):/usr/bin/docker -v /jenkins_home/jenkins:/var/jenkins_home -p 8080:8080 -p 50000:50000 rodionpro/ansiblejenkins
+      
+    
