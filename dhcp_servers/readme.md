@@ -1,5 +1,5 @@
 <div style="text-align:center;">
-<h1> Set 2 DHCP Servers on Ubuntu and Centos 7, in one private network.</h1>
+<h1> Bash script set 2 DHCP Servers on Ubuntu/Centos/Alpine, in one private network. Linux distribution defines automatically</h1>
 <h2>Create private network. Dhcp servers need to set bridget adaptor, and created network for interface eth1. For clients set Nat, and our network for eth1.</h2>
 <p><img src="img/1create-net.png"></p>
 
